@@ -6,6 +6,7 @@ from os import popen
 class EngineVSTT:
     def __init__(self):
         self.cmd = "spd-say "
+        self.how_get_input = 2
 
     def take_command(self):
         if self.how_get_input == 0:

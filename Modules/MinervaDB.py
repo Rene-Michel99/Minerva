@@ -94,5 +94,5 @@ class DB:
         id=Reminders.insert_one(reminder).inserted_id
         print(id)
 
-bd = DB()
-bd.getAge()
+#bd = DB()
+#bd.getAge()

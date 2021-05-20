@@ -1,7 +1,7 @@
 import datetime
 import threading
 from Pipe_chat import Chatbot
-#from Modules import MinervaDB
+from Database import DB
 from Modules.Tasker import Core
 from Modules.EngineVSTT import EngineVSTT
 from Modules import Aux_functions
@@ -15,7 +15,7 @@ class Minerva:
         self.engine_vstt = EngineVSTT()
         self.running = True
         self.exceptions_re = []
-        #self.Db = MinervaDB.DB()
+        self.Db = DB()
         self.engine_chat = Chatbot()
         self.th_res_tasks = []
         self.permissions = {
@@ -172,7 +172,7 @@ class Minerva:
     def start(self):
         self.initialize_voice_engine()    
 
-        self.analysis()
+        #self.analysis()
         
         #self.verify_reminders()
 

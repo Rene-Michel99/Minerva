@@ -63,11 +63,24 @@ for x, doc in enumerate(docs_x):
 training = np.array(training)
 output = np.array(output)
 
-def dense_layers():
-    x = tf.keras.layers.Dense(neurons,activation='relu')
-    x = tf.keras.layers.Densse(neurons,activation='relu')(x)
-    return x
+tensorflow.reset_default_graph()
 
-def final_model(inputs):
-    model = tf.keras.Model(inputs=inputs,outputs=response)
+net = tflearn.input_data(shape=[None, len(training[0])])
+net = tflearn.fully_connected(net, self.actual)
+net = tflearn.fully_connected(net, self.actual)
+net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
+net = tflearn.regression(net)
 
+model = tflearn.DNN(net)
+
+model.fit(training, output, n_epoch=self.epochs, batch_size=10, show_metric=True)
+
+with open("Chatbot/Data/dataV2.pickle", "wb") as f:
+    pickle.dump((words, labels, training, output), f)
+    
+with open("Chatbot/Data/iniV2.pickle", "wb") as f:
+    pickle.dump((self.next_qnt, self.actual, self.epochs), f)
+
+model.save("Chatbot/Data/model_MinervaV2.tflearn")
+
+print('//Neuronios: ',self.actual)

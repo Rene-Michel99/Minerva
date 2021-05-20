@@ -4,71 +4,74 @@ from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
 import numpy as np
-import tflearn
 import tensorflow as tf
 import random
 import json
 import pickle
 from fuzzywuzzy import fuzz
 
-class DNN_Model:
+class Data:
     def __init__(self):
         self.current_tag = ""
-        
-        with open("Chatbot/Data/intents.json","r",encoding='utf-8') as file:
-            self.data = json.load(file)
 
+        with open("Chatbot/Data/intents.json","r",encoding='utf-8') as file:
+            self.dataset = json.load(file)
+        
         with open("Chatbot/Data/dataV2.pickle", "rb") as f:
             self.words, self.labels, training, output = pickle.load(f)
-        
-        tensorflow.reset_default_graph()
 
         with open("Chatbot/Data/iniV2.pickle", "rb") as f:
-            self.next_qnt , self.actual, self.epochs = pickle.load(f)
-
-        net = tflearn.input_data(shape=[None, len(training[0])])
-        net = tflearn.fully_connected(net, self.actual)
-        net = tflearn.fully_connected(net, self.actual)
-        net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
-        net = tflearn.regression(net)
-
-        self.model = tflearn.DNN(net)
-
-        self.model.load("Chatbot/Models/model_MinervaV2.tflearn")
+            self.next_qnt , self.NEURONS, self.EPOCHS = pickle.load(f)
         
+        self.stopwords = nltk.corpus.stopwords.words('portuguese')
+    
     def modify_training_values(self,actual,epochs):
         with open("Chatbot/Data/iniV2.pickle", "wb") as f:
             pickle.dump((self.next_qnt, actual, epochs), f)
+
+
+class DNN_Model:
+    def __init__(self):
+        self.data = Data()
+
+        self.model = tf.keras.models.load_model("./Chatbot/Models/model.h5")
+        
+    def modify_training_values(self,actual,epochs):
+        self.data.modify_training_values(actual,epochs)
         
     def get_current_pergs(self):
-        return self.current_tag["patterns"]
+        return self.data.current_tag["patterns"]
         
     def bag_of_words(self,s):
-        bag = [0 for _ in range(len(self.words))]
+        bag = [0 for _ in range(len(self.data.words))]
         
         ponctuations = ["?","'",'"',"!",".",","]
 
         s_words = nltk.word_tokenize(s)
+        s_words = [word for word in s_words if word.lower() not in self.data.stopwords]
         s_words = [stemmer.stem(word.lower()) for word in s_words if word not in ponctuations]
 
         for se in s_words:
-            for i, w in enumerate(self.words):
+            for i, w in enumerate(self.data.words):
                 if w == se:
                     bag[i] = 1
         
         return np.array(bag)
     
     def get_prediction(self,inp):
-        results = self.model.predict([self.bag_of_words(inp)])
+        bag = self.bag_of_words(inp)
+        bag = bag.reshape((1,493))
+
+        results = self.model.predict(bag)
         results_index = np.argmax(results)
 
-        tag = self.labels[results_index]
+        tag = self.data.labels[results_index]
         responses = ''
 
-        for tg in self.data['intents']:
+        for tg in self.data.dataset['intents']:
             if tg['tag'] == tag:
                 responses = tg['responses']
-                self.current_tag = tg
+                self.data.current_tag = tg
         
         response = random.choice(responses)
         confidence = results[0][results_index]
@@ -102,6 +105,7 @@ class DNN_Model:
         
         ponctuations = ["?","'",'"',"!",".",","]
         
+        words  = [w for w in words if w.lower() not in self.data.stopwords]
         words = [stemmer.stem(w.lower()) for w in words if w not in ponctuations]
         words = sorted(list(set(words)))
         labels = sorted(labels)
@@ -131,28 +135,51 @@ class DNN_Model:
 
         training = np.array(training)
         output = np.array(output)
+        SHAPE = len(training[0])
+        N_CLASSES = len(output[0])
 
-        tensorflow.reset_default_graph()
-
-        net = tflearn.input_data(shape=[None, len(training[0])])
-        net = tflearn.fully_connected(net, self.actual)
-        net = tflearn.fully_connected(net, self.actual)
-        net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
-        net = tflearn.regression(net)
-
-        model = tflearn.DNN(net)
-
-        model.fit(training, output, n_epoch=self.epochs, batch_size=10, show_metric=True)
+        model = self.define_and_compile_model(SHAPE,N_CLASSES,self.data.NEURONS)
+        model.fit(training,output,epochs=self.data.EPOCHS)
 
         with open("Chatbot/Data/dataV2.pickle", "wb") as f:
             pickle.dump((words, labels, training, output), f)
             
         with open("Chatbot/Data/iniV2.pickle", "wb") as f:
-            pickle.dump((self.next_qnt, self.actual, self.epochs), f)
+            pickle.dump((self.data.next_qnt, self.data.NEURONS, self.data.EPOCHS), f)
 
-        model.save("Chatbot/Data/model_MinervaV2.tflearn")
+        model.save("Chatbot/Data/model.h5")
         
-        print('//Neuronios: ',self.actual)
+        print('//Neuronios: ',self.data.NEURONS)
+    
+    def dense_layers(self,inputs,NEURONS):
+        x = tf.keras.layers.Dense(NEURONS,activation='relu')(inputs)
+        x = tf.keras.layers.Dense(NEURONS,activation='relu')(x)
+        x = tf.keras.layers.Dense(NEURONS,activation='relu')(x)
+        return x
+
+    def classfier_layer(self,x,N_CLASSES):
+        x = tf.keras.layers.Dense(N_CLASSES,activation='softmax',name='classification')(x)
+        return x
+
+    def final_model(self,inputs,N_CLASSES,NEURONS):
+        dense = self.dense_layers(inputs,NEURONS)
+        
+        classfier = self.classfier_layer(dense,N_CLASSES)
+        
+        model = tf.keras.Model(inputs=inputs,outputs=classfier)
+        
+        return model
+        
+    def define_and_compile_model(self,SHAPE,N_CLASSES,NEURONS):
+        inputs = tf.keras.layers.Input(shape=(SHAPE,))
+        
+        # create the model
+        model = self.final_model(inputs,N_CLASSES,NEURONS)
+        
+        # compile your model
+        model.compile(optimizer='adam',loss='binary_crossentropy',metrics = {'classification' : 'accuracy'})
+
+        return model
 
 
 class Memory:
@@ -161,7 +188,7 @@ class Memory:
         with open("Chatbot/Music_info/Rock/data.json","r",encoding='utf-8') as f:
             self.base_Mrock = json.loads(f.read())
 
-        _arq = open("Chatbot/Extra_info/piadas.txt","r",encoding='utf-8')
+        _arq = open("Chatbot/Extra_info/Piadas.txt","r",encoding='utf-8')
         self.piadas = _arq.read().split("\n")
         _arq.close()
         
@@ -207,7 +234,7 @@ class Chatbot:
                     if fuzz.ratio(frase[0],inp)>90:
                         return frase[2]
 
-            tag = 'tag'+str(len(self.dnn.labels)+1+len(self.unknow_phrases))
+            tag = 'tag'+str(len(self.dnn.data.labels)+1+len(self.unknow_phrases))
             print('Minerva: Não entendi, como eu poderia responder a isso?')
             resp = input('Você: ')
             out = 'Agora entendi, muito obrigada'
