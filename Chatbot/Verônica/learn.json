@@ -1,0 +1,8 @@
+{"intents": 
+    [
+        {"tag": "names_knowed",
+         "patterns": ["Michel", "Rodrigo"], 
+         "responses": ["Ola mestre", "Ola Rodrigo"]
+        }
+    ]
+}

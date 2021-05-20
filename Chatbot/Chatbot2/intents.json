@@ -1,0 +1,19 @@
+{"intents": [
+        {"tag": "saudacoes",
+         "patterns": ["Oi", "Eae", "Ola", "Bom dia"],
+         "responses": ["Ola", "Oi"],
+         "context_set": ""
+        }
+        {"tag":"padrao_pergunta",
+         "patterns": ["Como ","Quando ","Onde ","Porque "],
+         "responses": ["True_perg"]
+        },
+        {"tag":"padrao_sugest",
+         "patterns": [""]
+        },
+        {"tag": "recv_sugestao",
+         "patterns": ["Deveria assistir ","Voce poderia assistir "," e legal voce tem que assistir","Esse filme e muito bom","Esse anime e muito bom"],
+         "responses": ["Interessante,nunca assistir isso mas vou assistir isso assim que possivel","Conta mais"]
+        }
+   ]
+}
