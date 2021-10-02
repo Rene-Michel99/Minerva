@@ -1,4 +1,5 @@
 <h1><img src="./icons/minerva_icon_final.png" width="64" height="64">Minerva</h1>
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 Minerva é uma assistente virtual para sistemas linux desenvolvida em python, com um sistema de chatbot para conversação e comandos de voz, ainda em desenvolvimento.
 
 <h2>Funcionalidades:</h2><br/>
@@ -7,13 +8,15 @@ Minerva é uma assistente virtual para sistemas linux desenvolvida em python, co
 ✅ Comando de voz<br/>
 ❌ Reconhecimento de Voz<br/>
 ✅ Ativação de comandos<br/>
-❌ Reconhecimento de Voz OFFLINE<br/>
+❌ Comando de Voz OFFLINE<br/>
 ❌ Controle de dispositivos Externos<br/>
 ❌ Controle da Casa<br/>
 ❌ Pesquisa e resumo das informações encontradas<br/>
 ❌ Análise de sentimentos<br/>
 ✅ Monitoramento do funcionamento do sistema<br/>
 ❌ Reconhecimento Facial<br/>
+
+<a href="https://trello.com/b/o9bPkwWi/minerva">Tabela de controle do Trello</a><br/>
 
 
 

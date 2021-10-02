@@ -1,33 +1,22 @@
 # -*- coding: utf-8 -*-
-import nltk
-from nltk.stem.lancaster import LancasterStemmer
-stemmer = LancasterStemmer()
-
 import numpy as np
 import tensorflow as tf
 import random
 import json
 import pickle
+import spacy
 from fuzzywuzzy import fuzz
 
 class Data:
     def __init__(self):
         self.current_tag = ""
+        self.nlp = spacy.load('pt_core_news_sm')
 
-        with open("Chatbot/Data/intents.json","r",encoding='utf-8') as file:
+        with open("../Chatbot/Data/intents.json","r",encoding='utf-8') as file:
             self.dataset = json.load(file)
         
-        with open("Chatbot/Data/dataV2.pickle", "rb") as f:
-            self.words, self.labels, training, output = pickle.load(f)
-
-        with open("Chatbot/Data/iniV2.pickle", "rb") as f:
-            self.next_qnt , self.NEURONS, self.EPOCHS = pickle.load(f)
-        
-        self.stopwords = nltk.corpus.stopwords.words('portuguese')
-    
-    def modify_training_values(self,actual,epochs):
-        with open("Chatbot/Data/iniV2.pickle", "wb") as f:
-            pickle.dump((self.next_qnt, actual, epochs), f)
+        with open("../Chatbot/Data/dataV2.pickle", "rb") as f:
+            self.words, self.labels, _, _ = pickle.load(f)
 
 
 class DNN_Model:
@@ -43,12 +32,13 @@ class DNN_Model:
         
     def bag_of_words(self,s):
         bag = [0 for _ in range(len(self.data.words))]
+        ponctuations = ["?","'",'"',"!",".",",",":",";"]
         
-        ponctuations = ["?","'",'"',"!",".",","]
-
-        s_words = nltk.word_tokenize(s)
-        #s_words = [word for word in s_words if word.lower() not in self.data.stopwords]
-        s_words = [stemmer.stem(word.lower()) for word in s_words if word not in ponctuations]
+        doc = self.data.nlp(s.lower())
+        s_words = []
+        for token in doc:
+            if not token.is_stop and token.lemma_ not in ponctuations:
+                s_words.append(token.lemma_)
 
         for se in s_words:
             for i, w in enumerate(self.data.words):
@@ -56,6 +46,7 @@ class DNN_Model:
                     bag[i] = 1
         
         return np.array(bag)
+        
     
     def get_prediction(self,inp):
         bag = self.bag_of_words(inp)
@@ -76,109 +67,6 @@ class DNN_Model:
         confidence = results[0][results_index]
         
         return response,confidence
-    
-    def train(self,lista=[]):
-        with open("Chatbot/Data/intents.json","r",encoding='utf-8') as file:
-            data = json.load(file)
-
-        words = []
-        labels = []
-        docs_x = []
-        docs_y = []
-
-        for i,intent in enumerate(data["intents"]):
-            intent["tag"] = "tag"+str(i)
-
-        with open("Chatbot/Data/intents.json","w",encoding='utf-8') as file:
-            json.dump(data,file,indent=3,ensure_ascii=False)
-
-        for intent in data["intents"]:
-            for pattern in intent["patterns"]:
-                wrds = nltk.word_tokenize(pattern)
-                words.extend(wrds)
-                docs_x.append(wrds)
-                docs_y.append(intent["tag"])
-
-            if intent["tag"] not in labels:
-                labels.append(intent["tag"])
-        
-        ponctuations = ["?","'",'"',"!",".",","]
-        
-        #words  = [w for w in words if w.lower() not in self.data.stopwords]
-        words = [stemmer.stem(w.lower()) for w in words if w not in ponctuations]
-        words = sorted(list(set(words)))
-        labels = sorted(labels)
-
-        training = []
-        output = []
-
-        out_empty = [0 for _ in range(len(labels))]
-
-        for x, doc in enumerate(docs_x):
-            bag = []
-
-            wrds = [stemmer.stem(w.lower()) for w in doc]
-
-            for w in words:
-                if w in wrds:
-                    bag.append(1)
-                else:
-                    bag.append(0)
-
-            output_row = out_empty[:]
-            output_row[labels.index(docs_y[x])] = 1
-
-            training.append(bag)
-            output.append(output_row)
-
-
-        training = np.array(training)
-        output = np.array(output)
-        SHAPE = len(training[0])
-        N_CLASSES = len(output[0])
-
-        model = self.define_and_compile_model(SHAPE,N_CLASSES,self.data.NEURONS)
-        model.fit(training,output,epochs=self.data.EPOCHS)
-
-        with open("Chatbot/Data/dataV2.pickle", "wb") as f:
-            pickle.dump((words, labels, training, output), f)
-            
-        with open("Chatbot/Data/iniV2.pickle", "wb") as f:
-            pickle.dump((self.data.next_qnt, self.data.NEURONS, self.data.EPOCHS), f)
-
-        model.save("Chatbot/Data/model.h5")
-        
-        print('//Neuronios: ',self.data.NEURONS)
-    
-    def dense_layers(self,inputs,NEURONS):
-        x = tf.keras.layers.Dense(NEURONS,activation='relu')(inputs)
-        x = tf.keras.layers.Dense(NEURONS,activation='relu')(x)
-        x = tf.keras.layers.Dense(NEURONS,activation='relu')(x)
-        return x
-
-    def classfier_layer(self,x,N_CLASSES):
-        x = tf.keras.layers.Dense(N_CLASSES,activation='softmax',name='classification')(x)
-        return x
-
-    def final_model(self,inputs,N_CLASSES,NEURONS):
-        dense = self.dense_layers(inputs,NEURONS)
-        
-        classfier = self.classfier_layer(dense,N_CLASSES)
-        
-        model = tf.keras.Model(inputs=inputs,outputs=classfier)
-        
-        return model
-        
-    def define_and_compile_model(self,SHAPE,N_CLASSES,NEURONS):
-        inputs = tf.keras.layers.Input(shape=(SHAPE,))
-        
-        # create the model
-        model = self.final_model(inputs,N_CLASSES,NEURONS)
-        
-        # compile your model
-        model.compile(optimizer='adam',loss='binary_crossentropy',metrics = {'classification' : 'accuracy'})
-
-        return model
 
 
 class Memory:
@@ -301,4 +189,3 @@ class Chatbot:
             self.dnn.train(lista=self.unknow_phrases)
 
 #pipe = Chatbot()
-#pipe.dnn.train()
