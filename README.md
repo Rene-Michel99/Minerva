@@ -2,17 +2,17 @@
 Minerva é uma assistente virtual para sistemas linux desenvolvida em python, com um sistema de chatbot para conversação e comandos de voz, ainda em desenvolvimento.
 
 <h2>Funcionalidades:</h2><br/>
-<input type="checkbox" value="Auxílio em Projetos">
-<input type="checkbox" value="Conversação Avançada">
-<input type="checkbox" value="Comando de voz" checked>
-<input type="checkbox" value="Reconhecimento de Voz" checked>
-<input type="checkbox" value="Reconhecimento de Voz OFFLINE">
-<input type="checkbox" value="Controle de dispositivos Externos">
-<input type="checkbox" value="Controle da Casa">
-<input type="checkbox" value="Pesquisa e resumo das informações encontradas">
-<input type="checkbox" value="Análise de sentimentos">
-<input type="checkbox" value="Monitoramento do funcionamento do sistema" checked>
-<input type="checkbox" value="Reconhecimento Facial">
+- [ ] Auxílio em Projetos
+- [ ] Conversação Avançada
+- [x] Comando de voz
+- [x] Reconhecimento de Voz
+- [ ] Reconhecimento de Voz OFFLINE
+- [ ] Controle de dispositivos Externos
+- [ ] Controle da Casa
+- [ ] Pesquisa e resumo das informações encontradas
+- [ ] Análise de sentimentos">
+- [ ] Monitoramento do funcionamento do sistema
+- [ ] Reconhecimento Facial
 
 
 
