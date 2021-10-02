@@ -5,13 +5,14 @@ Minerva é uma assistente virtual para sistemas linux desenvolvida em python, co
 ❌ Auxílio em Projetos<br/>
 ❌ Conversação Avançada<br/>
 ✅ Comando de voz<br/>
-✅ Reconhecimento de Voz<br/>
+❌ Reconhecimento de Voz<br/>
+✅ Ativação de comandos<br/>
 ❌ Reconhecimento de Voz OFFLINE<br/>
 ❌ Controle de dispositivos Externos<br/>
 ❌ Controle da Casa<br/>
 ❌ Pesquisa e resumo das informações encontradas<br/>
 ❌ Análise de sentimentos<br/>
-❌ Monitoramento do funcionamento do sistema<br/>
+✅ Monitoramento do funcionamento do sistema<br/>
 ❌ Reconhecimento Facial<br/>
 
 
