@@ -1,6 +1,7 @@
 <h1><img src="./icons/minerva_icon_final.png" width="64" height="64">Minerva</h1>
 Minerva é uma assistente virtual para sistemas linux desenvolvida em python, com um sistema de chatbot para conversação e comandos de voz, ainda em desenvolvimento.
 
+<h2>Funcionalidades:</h2><br/>
 <input type="checkbox" value="Auxílio em Projetos">
 <input type="checkbox" value="Conversação Avançada">
 <input type="checkbox" value="Comando de voz" checked>
