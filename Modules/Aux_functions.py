@@ -43,6 +43,17 @@ def three_more_cheap(lista):
     string='O mais barato é '+menor1[0]+' no site '+menor1[1]+' custando '+str(menor1[2])+' reais'
     return string
     
+def structurize_data_hardware(pct_b,disk_u,cpu_d,cpu2):
+    if pct_b <= 20 or disk_u.percent > 80 or cpu_d > 75:
+        text = 'Tomei a liberdade de analisar um pouco o hardware,'
+        if pct_b <= 20:
+            text += 'A bateria se encontra em'+str(pct_b)+'% , sujiro que coloque para carregar,'
+        if disk_u.percent > 80:
+            text += 'Mais de'+str(round(disk_u.percent))+'%'+' da memória principal está em uso, posso deletar algumas coisas caso desejar,'
+        if cpu_d > 75:
+            text += 'A cpu está sendo bastante usada, o valor atual é de'+str(cpu_d)
+        return text
+    return None
 
 def solve_math(problem):
     if problem.find('quanto é ')!=-1:

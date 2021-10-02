@@ -1,12 +1,13 @@
 import datetime
 import threading
 from Pipe_chat import Chatbot
-from Database import DB
+from Database.MinervaDB import DB
 from Modules.Tasker import Core
 from Modules.EngineVSTT import EngineVSTT
 from Modules import Aux_functions
 from Modules import Sys_funcs
 from Modules import Web_scrapper
+from Modules import Interface
 
 
 class Minerva:
@@ -21,6 +22,7 @@ class Minerva:
         self.permissions = {
             '<weather>':self.Db,'<lembrete>':[self.engine_vstt,self.Db]
         }
+        self.interface = Interface.Interface()
 
         th = threading.Thread(target=self.thread_count_next_organize)
         th.daemon = True
@@ -40,7 +42,7 @@ class Minerva:
         for i in range(len(inp)):
             word = inp[i].replace("*","")
             if word in tokens.keys()!=-1:
-                inp[i] = tokens[word]() + "*"
+                inp[i] = str(tokens[word]()) + "*"
         inp = "".join(inp)
         inp = inp.replace("*"," ")
         return inp
@@ -75,6 +77,7 @@ class Minerva:
         self.running = False
         self.engine_chat.have_to_learn()
         self.Db.update_last_shutdown(datetime.datetime.now().strftime("%d:%m:%Y"))
+        self.interface.shutdown()
         return 0
 
     def get_th_responses(self):
@@ -88,41 +91,15 @@ class Minerva:
             print('Error')
         else:
             res = res.lower()
-            res2 = ''
-            if res.find('minerva') != -1:
-                if res == 'minerva':
-                    self.engine_vstt.speak('Estou te ouvindo')
-                    res = self.engine_vstt.take_command()
-                else:
-                    res = res[res.find('minerva')+len('minerva')+1:]
-
-                if res.find('depois')!=-1:
-                    res2=res[res.find('depois')+7:]
-                    res=res[:res.find(' depois')]
-                
-                self.do(res)
-                if res2 != '':
-                    self.do(res2)
-            elif self.how_get_input == 2:
-                self.do(res)
+            self.do(res)
 
     def analysis(self):
-        pct_b,disk_u,cpu_d,cpu2=Sys_funcs.get_hardware_info()
-        x=0
-        if pct_b<=20 or disk_u.percent>80 or cpu_d>75:
-            self.engine_vstt.speak('Tomei a liberdade de analisar um pouco o hardware')
-        if pct_b<=20:
-            x+=1
-            self.engine_vstt.speak('A bateria se encontra em'+str(pct_b)+'% , sujiro que coloque para carregar')
-        if disk_u.percent>80:
-            x+=1
-            self.engine_vstt.speak('Mais de'+str(round(disk_u.percent))+'%'+' da memória principal está em uso, posso deletar algumas coisas caso desejar')
-        if cpu_d>75:
-            x+=1
-            self.engine_vstt.speak('A cpu está sendo bastante usada, o valor atual é de'+str(cpu_d)+', posso dar um jeito nisso')
-        if x>0:
-            self.engine_vstt.speak('Vou imprimir na tela caso queira copiar esses dados')
-            print('Bateria: ',pct_b,'% Uso da memória: ',disk_u,' Uso da cpu: ',cpu2)
+        pct_b,disk_u,cpu_d,cpu2 = Sys_funcs.get_hardware_info()
+        text = Aux_functions.structurize_data_hardware(pct_b,disk_u,cpu_d,cpu2)
+        if text != None:
+            self.engine_vstt.speak(text)
+            
+        print('Bateria: ',pct_b,'% Uso da memória: ',disk_u,' Uso da cpu: ',cpu2)
     
     def manage(self):
         if Sys_funcs.get_battery() == 100:
@@ -131,6 +108,7 @@ class Minerva:
     def update_weather_data(self):
         updated = self.Db.get_last_upadte_weather()
         date_now = datetime.datetime.now().strftime('%d:%m')
+
         if Sys_funcs.have_connection() and updated==None or updated!=date_now:
             print(date_now,updated)
             data = Web_scrapper.get_weather(Web_scrapper.get_city(),more=True)
@@ -140,13 +118,12 @@ class Minerva:
 
     def verify_reminders(self):
         data_hoje = datetime.datetime.now().strftime('%d:%m:%Y').replace(':','/')
-        descrs = self.Db.find_in_reminders(data_hoje)
-        if type(descrs)==list:
-            self.engine_vstt.speak('Você me pediu para te lembrar algumas coisas para hoje, vou citar,')
-            for item in descrs:
-                self.engine_vstt.speak(item)
-            self.Db.delete_in_reminders(data_hoje)
-        del(data_hoje,descrs)
+        reminders = self.Db.find_in_reminders(data_hoje)
+
+        if reminders != []:
+            self.engine_vstt.speak('Você me pediu para te lembrar algumas coisas para hoje, vou listar,')
+            for item in reminders:
+                self.engine_vstt.speak(item[1])
 
     def wishme(self):
         string = Aux_functions.get_the_status(datetime.datetime.now().strftime("%H"))
@@ -156,12 +133,15 @@ class Minerva:
             string='Boa tarde mestre'
         elif string.find('Manhã')!=-1:
             string='Bom dia mestre'
+        
         self.engine_vstt.speak(string+', Bem vindo de volta')
 
     def initialize_voice_engine(self):
         act = Sys_funcs.have_connection()
+        self.engine_vstt.set_interface_conn(self.interface)
+
         if not act:
-            self.engine_vstt.speak('Não há conexão com a internet, reconhecimento de voz em português desativado, você deve falar em inglês')
+            self.engine_vstt.speak('Não há conexão com a internet, reconhecimento de voz em português desativado')
             self.how_get_input = 2
         else:
             self.how_get_input = 2
@@ -169,8 +149,14 @@ class Minerva:
         del(act)
         self.wishme()
 
+    def initialize_interface(self):
+        th = threading.Thread(target=self.interface.start)
+        th.setDaemon(True)
+        th.start()
+
     def start(self):
-        self.initialize_voice_engine()    
+        self.initialize_interface()
+        self.initialize_voice_engine()
 
         #self.analysis()
         

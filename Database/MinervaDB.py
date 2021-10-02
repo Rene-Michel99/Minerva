@@ -1,18 +1,32 @@
 import sqlite3
+import uuid
 
 class DB:
     def __init__(self):
-        self.db = sqlite3.connect("./minervaDB.db")
+        self.db = sqlite3.connect("./Database/sqlite/database.db")
 
     def getAge(self):
         cursor = self.db.cursor()
         rows = cursor.execute("select age from minerva_info").fetchone()
-        print(rows[0])
+        return rows[0]
 
     def update_last_shutdown(self,date):
         cursor = self.db.cursor()
-        cursor.execute('update minerva_info set last_execution=? where id=1',[date])
+        cursor.execute('update minerva_info set last_shutdown=? where id=1',[date])
         self.db.commit()
 
-db = DB()
-db.update_last_shutdown("20/05/2020 10:40")
+    def create_reminder(self,text,created_at,remember_in):
+        cursor = self.db.cursor()
+
+        id = str(uuid.uuid4())
+
+        cursor.execute('insert into reminder (id,content,created_at,remember_in) values(?,?,?,?)',(id,text,created_at,remember_in))
+        self.db.commit()
+
+    def find_in_reminders(self,date):
+        cursor = self.db.cursor()
+
+        rows = cursor.execute('select * from reminder where remember_in=?',[date]).fetchall()
+
+        return rows
+    

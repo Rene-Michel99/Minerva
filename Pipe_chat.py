@@ -33,7 +33,6 @@ class Data:
 class DNN_Model:
     def __init__(self):
         self.data = Data()
-
         self.model = tf.keras.models.load_model("./Chatbot/Models/model.h5")
         
     def modify_training_values(self,actual,epochs):
@@ -48,7 +47,7 @@ class DNN_Model:
         ponctuations = ["?","'",'"',"!",".",","]
 
         s_words = nltk.word_tokenize(s)
-        s_words = [word for word in s_words if word.lower() not in self.data.stopwords]
+        #s_words = [word for word in s_words if word.lower() not in self.data.stopwords]
         s_words = [stemmer.stem(word.lower()) for word in s_words if word not in ponctuations]
 
         for se in s_words:
@@ -60,7 +59,7 @@ class DNN_Model:
     
     def get_prediction(self,inp):
         bag = self.bag_of_words(inp)
-        bag = bag.reshape((1,493))
+        bag = bag.reshape((1,len(self.data.words)))
 
         results = self.model.predict(bag)
         results_index = np.argmax(results)
@@ -105,7 +104,7 @@ class DNN_Model:
         
         ponctuations = ["?","'",'"',"!",".",","]
         
-        words  = [w for w in words if w.lower() not in self.data.stopwords]
+        #words  = [w for w in words if w.lower() not in self.data.stopwords]
         words = [stemmer.stem(w.lower()) for w in words if w not in ponctuations]
         words = sorted(list(set(words)))
         labels = sorted(labels)
@@ -218,6 +217,8 @@ class Chatbot:
         self.unknow_phrases = []
         self.current_questions = []
         self.memory = Memory()
+        self.min_confidence = 0.6
+        self.wait_new_phrase = 0
 
     def get_correct_predict(self,confidence,inp,perguntas):
         maior = 50
@@ -235,18 +236,16 @@ class Chatbot:
                         return frase[2]
 
             tag = 'tag'+str(len(self.dnn.data.labels)+1+len(self.unknow_phrases))
-            print('Minerva: Não entendi, como eu poderia responder a isso?')
-            resp = input('Você: ')
-            out = 'Agora entendi, muito obrigada'
-            self.unknow_phrases.append([inp,tag,resp])
-            return out
+            self.unknow_phrases.append([inp,tag,"NONE"])
+            self.wait_new_phrase = len(self.unknow_phrases)-1
+            return 'Não entendi, como eu poderia responder a isso?'
         else:
             return 0
         
     def get_response(self,inp):
         response,confidence = self.dnn.get_prediction(inp)
         
-        if confidence < 0.8:
+        if confidence < self.min_confidence:
             perguntas = self.dnn.get_current_pergs()
             Sresponse = self.get_correct_predict(confidence,inp,perguntas)
             if Sresponse!=0:
@@ -259,9 +258,18 @@ class Chatbot:
         return response
 
     def chat(self,inp):
-        response = self.get_response(inp)
-        print('\nFrases novas: ',self.unknow_phrases)
-        return response
+        if self.wait_new_phrase and inp.lower() != "cancelar":
+            tag = self.wait_new_phrase
+            self.unknow_phrases[tag][2] = inp
+            self.wait_new_phrase = 0
+            return 'Agora entendi, muito obrigada'
+        elif inp == "cancelar":
+            self.unknow_phrases.pop()
+            return "Entendido"
+        else:
+            response = self.get_response(inp)
+            print('\nFrases novas: ',self.unknow_phrases)
+            return response
 
     def have_to_learn(self):
         if self.unknow_phrases!=[]: #aumentar a base de dados talvez implique em aumentar a quantidade neurônios e as epochs

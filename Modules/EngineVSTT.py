@@ -5,8 +5,20 @@ from os import popen
 
 class EngineVSTT:
     def __init__(self):
-        self.cmd = "spd-say "
+        self.cmd = "spd-say -w "
         self.how_get_input = 2
+        self.interface = None
+
+    def set_interface_conn(self,interface):
+        self.interface = interface
+
+    def wait_input(self):
+        while True:
+            text = self.interface.get_input_text()
+            if not text:
+                continue
+            else:
+                return text
 
     def take_command(self):
         if self.how_get_input == 0:
@@ -14,7 +26,7 @@ class EngineVSTT:
         elif self.how_get_input == 1:
             res = self.recognize_online()
         elif self.how_get_input == 2:
-            res = str(input('Digite: '))
+            res = self.wait_input()
         print(res,'*')
         return res
 
@@ -53,6 +65,7 @@ class EngineVSTT:
         return query.lower()
 
     def speak(self,audio):
+        self.interface.set_stack(audio)
         audio = '"'+audio+'"'
         x = popen(self.cmd+audio).read()
 
