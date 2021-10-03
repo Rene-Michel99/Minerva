@@ -12,17 +12,17 @@ class Data:
         self.current_tag = ""
         self.nlp = spacy.load('pt_core_news_sm')
 
-        with open("../Chatbot/Data/intents.json","r",encoding='utf-8') as file:
+        with open("Chatbot/Data/intents.json","r",encoding='utf-8') as file:
             self.dataset = json.load(file)
         
-        with open("../Chatbot/Data/dataV2.pickle", "rb") as f:
+        with open("Chatbot/Data/dataV2.pickle", "rb") as f:
             self.words, self.labels, _, _ = pickle.load(f)
 
 
 class DNN_Model:
     def __init__(self):
         self.data = Data()
-        self.model = tf.keras.models.load_model("./Chatbot/Models/model.h5")
+        self.model = tf.keras.models.load_model("./Chatbot/Models/model.h6")
         
     def modify_training_values(self,actual,epochs):
         self.data.modify_training_values(actual,epochs)
@@ -116,7 +116,7 @@ class Chatbot:
             if x > maior:
                 maior = x
                 
-        if maior < 55:
+        if maior < 40:
             print('Frase desconhecida',confidence)
             if self.unknow_phrases!=[]:
                 for frase in self.unknow_phrases:

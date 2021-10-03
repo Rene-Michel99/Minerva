@@ -72,21 +72,6 @@ def have_connection():
     else:
         return 1
 
-def get_name():
-    lista=listdir('c:/Users')
-    lista.remove('All Users')
-    lista.remove('Default')
-    lista.remove('Default User')
-    lista.remove('desktop.ini')
-    lista.remove('Public')
-    lista.remove('Todos os Usuários')
-    lista.remove('Usuário Padrão')
-    new_list=[]
-    for i in lista:
-        new_list.append(i.lower())
-    print(new_list)
-    return new_list
-
 def copia_para(item,root_path,second_path):
     lista=listdir(second_path)
 

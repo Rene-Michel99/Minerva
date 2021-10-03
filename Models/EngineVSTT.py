@@ -1,5 +1,6 @@
 import speech_recognition as sr
 from os import popen
+from pygame import mixer
 #from pocketsphinx import LiveSpeech
 #for phrase in LiveSpeech(): print(phrase)
 
@@ -30,16 +31,28 @@ class EngineVSTT:
         print(res,'*')
         return res
 
+    def play_sound_init(self):
+        sound='../Sounds/lbpnotification.mp3'
+        mixer.init()
+        mixer.music.load(sound)
+        mixer.music.play()
+
+    def play_sound_end():
+        sound='../Sounds/tethys.mp3'
+        mixer.init()
+        mixer.music.load(sound)
+        mixer.music.play()
+
     def recognize_online(self):
         hear = sr.Recognizer()
         with sr.Microphone() as source:
             #print("Ouvindo...")
-            Aux_functions.play_sound_init()
+            self.play_sound_init()
             hear.pause_threshold = 1
             audio = hear.listen(source)
         try:
             #print('Aguarde...')
-            Aux_functions.play_sound_end()
+            self.play_sound_end()
             query = hear.recognize_google(audio,language="pt-BR")
         except Exception as e:
             #self.engine_vstt.speak('Não conseguir entender oque disse')
@@ -51,12 +64,12 @@ class EngineVSTT:
         hear=sr.Recognizer()
         with sr.Microphone() as source:
             #print("Ouvindo...")
-            Aux_functions.play_sound_init()
+            self.play_sound_init()
             hear.pause_threshold = 1
             audio = hear.listen(source)
         try:
             #print('Aguarde...')
-            Aux_functions.play_sound_end()
+            self.play_sound_end()
             query = hear.recognize_sphinx(audio,language='en-IN')
         except Exception as e:
             #self.engine_vstt.speak('Não conseguir entender oque disse')
