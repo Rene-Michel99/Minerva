@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+pygame
+requests
+beautifulsoup4
+fuzzywuzzy
+tensorflow
+spacy
+SpeechRecognition
