@@ -1,5 +1,10 @@
 Analises/
-Chatbot/Testes/
+src/Controllers/Chatbot/Anime_info/
+src/Controllers/Chatbot/Data/
+src/Controllers/Chatbot/Extra_info/
+src/Controllers/Chatbot/Music_info/
+src/Controllers/Chatbot/Testes/
+src/Controllers/Chatbot/checkpoint
 Docs/
 Chatbot/Anime_info/
 Chatbot/Extra_info/

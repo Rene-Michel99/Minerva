@@ -1,7 +1,7 @@
 import datetime
 import threading
 import __init__
-from Models import System_funcs
+from Models import SystemFuncsModel
 from Models import Web_scrapper
 from Models import Manage_erros
 from Models import Manage_erros
@@ -16,13 +16,14 @@ from Models import Utils
         'math':self.math,'s_local':self.s_local,'s_yt':self.s_yt,'open':self.open,'s_zoom':self.s_zoom,'s_wiki':self.s_wiki,
         'weather':self.weather}'''
 
-class Tasker(Utils):
+class TasksController(Utils, SystemFuncsModel):
     def __init__(self):
         super().__init__()
+        self.system_funcs_model = SystemFuncsModel()
         self.exceptions_re = []
         self.th_respose_tasks = []
         self.occupied = []
-        self.dic_funcs = {
+        self.switcher = {
             '<time>':self.time,
             '<date>':self.date,
             '<get_errors>':self.status,
@@ -44,7 +45,7 @@ class Tasker(Utils):
             }
 
     def call(self,func,*kwargs):
-        resposta = self.dic_funcs[func](*kwargs)
+        resposta = self.switcher[func](*kwargs)
         return resposta
         
     def time(self,*kwargs):
@@ -83,13 +84,13 @@ class Tasker(Utils):
     def open_youtube(self,*kwargs):
         res = kwargs[0]
         res = res[res.find('youtube')+7:]
-        Sys_funcs.search_yt(res)
+        self.system_funcs_model.search_yt(res)
         st = "Abrindo o youtube"
         return st
     
     def open_app(self,*kwargs):
         res = kwargs[0]
-        x = Sys_funcs.open_app(res)
+        x = self.system_funcs_model.open_app(res)
         resp = ""
         if x == 1:
             resp = 'Ocorreu um erro ao abrir '+res.replace('abrir','')
@@ -138,7 +139,7 @@ class Tasker(Utils):
         return "Abrindo o gerenciador de tarefas"
 
     def screen_cpt(self,*kwargs):
-        Sys_funcs.prt_screen()
+        self.system_funcs_model.prt_screen()
         return "Captura de tela feita com sucesso"
 
     def next_music(self):
@@ -154,7 +155,7 @@ class Tasker(Utils):
         return "Feito"
 
     def get_battery(self,*kwargs):
-        x = str(Sys_funcs.get_battery())
+        x = str(self.system_funcs_model.get_battery())
         resp = 'O nível da bateria está em '+x+'%'
         return resp
 
@@ -184,7 +185,7 @@ class Tasker(Utils):
         return res
     
     def get_performance(self,*kwargs):
-        res = Sys_funcs.get_performance()
+        res = self.system_funcs_model.get_performance()
         res = "O uso da memória é de "+res
         return res
     
@@ -237,7 +238,7 @@ class Tasker(Utils):
     @Manage_erros.get_error
     def th_slocal(self,res):
         self.occupied.append("Buscando arquivo")
-        x = Sys_funcs.search_local(res)
+        x = self.system_funcs_model.search_local(res)
         if type(x)==str:
             pass
         else:
@@ -258,6 +259,3 @@ class Tasker(Utils):
     @Manage_erros.get_error
     def autoPillot(self,*kwargs):
         NotImplemented
-
-
-tasker = Tasker()

@@ -1,1 +1,1 @@
-from .Graphical_view import *
+from .EngineVSTTView import EngineVSTTView

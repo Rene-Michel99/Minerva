@@ -6,6 +6,7 @@ import json
 import pickle
 import spacy
 from fuzzywuzzy import fuzz
+import pandas as pd
 
 class Data:
     def __init__(self):
@@ -17,17 +18,15 @@ class Data:
             status = popen("python -m spacy download pt_core_news_sm").read()
             self.nlp = spacy.load('pt_core_news_sm')
 
-        with open("Chatbot/Data/intents.json","r",encoding='utf-8') as file:
-            self.dataset = json.load(file)
+        self.dataset = pd.read_csv("src/Controllers/Chatbot/Data/dataset.csv")
         
-        with open("Chatbot/Data/dataV2.pickle", "rb") as f:
+        with open("src/Controllers/Chatbot/Data/dataV2.pickle", "rb") as f:
             self.words, self.labels, _, _ = pickle.load(f)
-
 
 class DNN_Model:
     def __init__(self):
         self.data = Data()
-        self.model = tf.keras.models.load_model("./Chatbot/Models/model.h6")
+        self.model = tf.keras.models.load_model("src/Controllers/Chatbot/Models/model_4.h5")
         
     def modify_training_values(self,actual,epochs):
         self.data.modify_training_values(actual,epochs)
@@ -37,36 +36,34 @@ class DNN_Model:
         
     def bag_of_words(self,s):
         bag = [0 for _ in range(len(self.data.words))]
-        ponctuations = ["?","'",'"',"!",".",",",":",";"]
         
         doc = self.data.nlp(s.lower())
         s_words = []
         for token in doc:
-            if not token.is_stop and token.lemma_ not in ponctuations:
-                s_words.append(token.lemma_)
+            if token.pos_ != "PUNCT":
+                s_words.append(token.lemma_+token.pos_)
 
         for se in s_words:
             for i, w in enumerate(self.data.words):
                 if w == se:
                     bag[i] = 1
         
-        return np.array(bag)
+        bag = np.array(bag)
+        bag = bag.reshape(1,1,bag.shape[0],1)
+        return bag
         
-    
     def get_prediction(self,inp):
         bag = self.bag_of_words(inp)
-        bag = bag.reshape((1,len(self.data.words)))
+        print(bag.shape)
 
         results = self.model.predict(bag)
         results_index = np.argmax(results)
 
         tag = self.data.labels[results_index]
-        responses = ''
 
-        for tg in self.data.dataset['intents']:
-            if tg['tag'] == tag:
-                responses = tg['responses']
-                self.data.current_tag = tg
+        responses = self.data.dataset.iloc[tag]['outputs'].split(";")
+        self.data.current_tag = tag
+        print("responses:",responses)
         
         response = random.choice(responses)
         confidence = results[0][results_index]
@@ -77,10 +74,10 @@ class DNN_Model:
 class Memory:
     def __init__(self):
         self.special_tags = {"<joke>":self.get_joke}
-        with open("Chatbot/Music_info/Rock/data.json","r",encoding='utf-8') as f:
+        with open("src/Controllers/Chatbot/Music_info/Rock/data.json","r",encoding='utf-8') as f:
             self.base_Mrock = json.loads(f.read())
 
-        _arq = open("Chatbot/Extra_info/Piadas.txt","r",encoding='utf-8')
+        _arq = open("src/Controllers/Chatbot/Extra_info/Piadas.txt","r",encoding='utf-8')
         self.piadas = _arq.read().split("\n")
         _arq.close()
         

@@ -1,29 +1,35 @@
 import datetime
 import threading
 import __init__
-from Models import DBModel
-from TasksController import Tasker
-from Models import EngineVSTTModel
-from Models import Sys_funcs
-from Models import Web_scrapper
-from Views import Interface
 from ChatbotController import ChatbotController
+from Models import DBModel
+from TasksController import TasksController
+from Views import EngineVSTTView
+from Models import Web_scrapper
+
 
 class Minerva:
     def __init__(self):
-        self.tasker = Tasker()
-        self.engine_vstt = EngineVSTTModel()
-        self.running = False
+        super().__init__()
+        self.tasks_controller = TasksController()
+        self.interface_view = EngineVSTTView()
+        self.RUNNING = False
         self.exceptions_re = []
-        self.Db = DBModel()
+        self.db_model = DBModel()
         self.engine_chat = ChatbotController()
         self.th_respose_tasks = []
-        self.interface = Interface()
+    
+    def load_permissions(self):
         self.permissions = {
-            '<weather>':self.Db,
-            '<lembrete>':[self.engine_vstt,self.Db]
+            '<weather>': self.db_model,
+            '<lembrete>': [self.interface_view,self.db_model]
         }
 
+    def load_components(self):
+        self.COMPONENTS = {
+            "View": self.interface_view,
+            "TTS": self.interface_view
+        }
         
     def init_threads(self):
         #th = threading.Thread(target=self.thread_count_next_organize)
@@ -36,16 +42,16 @@ class Minerva:
     
     def thread_count_next_organize(self):
         from time import sleep
-        while self.running:
+        while self.RUNNING:
             sleep(1800)
-            Sys_funcs.organize_pasta()
+            #self.tasks_controller.organize_pasta()
             self.th_respose_tasks.append("Organizei as pastas")
     
     def find_tokens(self,inp):
         tokens = {
             "<temp>":Web_scrapper.get_only_temp,
-            "<age>":self.Db.getAge,
-            "<news>":self.tasker.get_news
+            "<age>":self.db_model.getAge,
+            "<news>":self.tasks_controller.get_news
         }
         
         inp = inp.replace(" ","* ")
@@ -69,35 +75,35 @@ class Minerva:
 
         if resposta == "<finalizar>":
             self.finalizar()
-        elif resposta not in self.tasker.dic_funcs:
+        elif resposta not in self.tasks_controller.switcher:
             resposta = self.find_tokens(resposta)
-            self.engine_vstt.speak(resposta)
+            self.interface_view.speak(resposta)
         elif resposta != 0:
             pack = self.need_permissions(resposta)
-            resposta = self.tasker.call(resposta,res,pack)
-            self.engine_vstt.speak(resposta)
+            resposta = self.tasks_controller.call(resposta,res,pack)
+            self.interface_view.speak(resposta)
 
     def change_input(self,*kwargs):
-        if self.engine_vstt.how_get_input == 2:
+        if self.interface_view.how_get_input == 2:
             self.how_get_input = 1
-        elif self.engine_vstt.how_get_input == 1:
-            self.engine_vstthow_get_input = 2
+        elif self.interface_view.how_get_input == 1:
+            self.interface_viewhow_get_input = 2
 
     def finalizar(self,*kwargs):
-        self.engine_vstt.speak('Tudo bem tenha uma ótima '+self.tasker.get_the_status(datetime.datetime.now().strftime("%H")))
-        self.running = False
+        self.interface_view.speak('Tudo bem tenha uma ótima '+self.tasks_controller.get_the_status(datetime.datetime.now().strftime("%H")))
+        self.RUNNING = False
         self.engine_chat.have_to_learn()
-        self.Db.update_last_shutdown(datetime.datetime.now().strftime("%d:%m:%Y"))
-        self.interface.shutdown()
+        self.db_model.update_last_shutdown(datetime.datetime.now().strftime("%d:%m:%Y"))
+        self.interface_view.shutdown()
         return 0
 
     def get_th_responses(self):
-        for item in self.tasker.th_respose_tasks:
-            self.engine_vstt.speak(item)
-        self.tasker.th_respose_tasks.clear()
+        for item in self.tasks_controller.th_respose_tasks:
+            self.interface_view.speak(item)
+        self.tasks_controller.th_respose_tasks.clear()
 
     def interpreter(self):
-        res = self.engine_vstt.take_command()
+        res = self.interface_view.take_command()
         if res == None:
             print('Error')
         else:
@@ -105,46 +111,46 @@ class Minerva:
             self.do(res)
 
     def analysis(self):
-        pct_b,disk_u,cpu_d,cpu2 = Sys_funcs.get_hardware_info()
-        text = self.tasker.structurize_data_hardware(pct_b,disk_u,cpu_d,cpu2)
+        pct_b,disk_u,cpu_d,cpu2 = self.tasks_controller.get_hardware_info()
+        text = self.tasks_controller.structurize_data_hardware(pct_b,disk_u,cpu_d,cpu2)
         if text != None:
-            self.engine_vstt.speak(text)
+            self.interface_view.speak(text)
             
         print('Bateria: ',pct_b,'% Uso da memória: ',disk_u,' Uso da cpu: ',cpu2)
     
     def manage(self):
         from time import sleep
 
-        while self.running:
+        while self.RUNNING:
             sleep(60*5)
-            battery_lv = Sys_funcs.get_battery()
+            battery_lv = self.tasks_controller.get_battery()
             if battery_lv == 100:
-                self.engine_vstt.speak("Bateria totalmente carregada")
+                self.interface_view.speak("Bateria totalmente carregada")
             elif battery_lv == 20:
-                self.engine_vstt.speak("Bateria abaixo de 20 por cento")
+                self.interface_view.speak("Bateria abaixo de 20 por cento")
 
     def update_weather_data(self):
-        updated = self.Db.get_last_upadte_weather()
+        updated = self.db_model.get_last_upadte_weather()
         date_now = datetime.datetime.now().strftime('%d:%m')
 
-        if Sys_funcs.have_connection() and updated==None or updated!=date_now:
+        if self.tasks_controller.have_connection() and updated==None or updated!=date_now:
             print(date_now,updated)
             data = Web_scrapper.get_weather(Web_scrapper.get_city(),more=True)
-            self.Db.insert_in_weather(data,date_now)
+            self.db_model.insert_in_weather(data,date_now)
         else:
             print('Nothing to update')
 
     def verify_reminders(self):
         data_hoje = datetime.datetime.now().strftime('%d:%m:%Y').replace(':','/')
-        reminders = self.Db.find_in_reminders(data_hoje)
+        reminders = self.db_model.find_in_reminders(data_hoje)
 
         if reminders != []:
-            self.engine_vstt.speak('Você me pediu para te lembrar algumas coisas para hoje, vou listar,')
+            self.interface_view.speak('Você me pediu para te lembrar algumas coisas para hoje, vou listar,')
             for item in reminders:
-                self.engine_vstt.speak(item[1])
+                self.interface_view.speak(item[1])
 
     def wishme(self):
-        string = self.tasker.get_the_status(datetime.datetime.now().strftime("%H"))
+        string = self.tasks_controller.get_the_status(datetime.datetime.now().strftime("%H"))
         if string.find('Noite')!=-1:
             string='Boa noite mestre'
         elif string.find('Tarde')!=-1:
@@ -152,14 +158,13 @@ class Minerva:
         elif string.find('Manhã')!=-1:
             string='Bom dia mestre'
         
-        self.engine_vstt.speak(string+', Bem vindo de volta')
+        self.interface_view.speak(string+', Bem vindo de volta')
 
     def initialize_voice_engine(self):
-        act = Sys_funcs.have_connection()
-        self.engine_vstt.set_interface_conn(self.interface)
+        status_conn = self.tasks_controller.have_connection()
 
-        if not act:
-            self.engine_vstt.speak('Não há conexão com a internet, reconhecimento de voz em português desativado')
+        if not status_conn:
+            self.interface_view.speak('Não há conexão com a internet, reconhecimento de voz em português desativado')
             self.how_get_input = 2
         else:
             self.how_get_input = 2
@@ -167,25 +172,27 @@ class Minerva:
         self.wishme()
 
     def initialize_interface(self):
-        th = threading.Thread(target=self.interface.start)
+        th = threading.Thread(target=self.interface_view.start)
         th.setDaemon(True)
         th.start()
 
     def start(self):
-        self.running = True
+        self.load_components()
+        self.load_permissions()
+        self.RUNNING = True
+        self.init_threads()
         self.initialize_interface()
 
         self.initialize_voice_engine()
         #self.analysis()
         #self.verify_reminders()
-        self.init_threads()
 
-        while self.running:
+        while self.RUNNING:
             self.interpreter()
-            if self.tasker.exceptions_re != []:
-                x = self.tasker.status()
-                self.engine_vstt.speak(x)
-            if self.tasker.th_respose_tasks != []:
+            if self.tasks_controller.exceptions_re != []:
+                x = self.tasks_controller.status()
+                self.interface_view.speak(x)
+            if self.tasks_controller.th_respose_tasks != []:
                 self.get_th_responses()
 
 minerva = Minerva()

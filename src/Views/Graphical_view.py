@@ -10,7 +10,7 @@ class Colors:
         self.GREEN =     (  0, 255,   0)
         self.RED =       (255,   0,   0)
 
-class Interface:
+class InterfaceView:
     def __init__(self):
         self.RUNNING = True
         self.TYPING = False
@@ -21,8 +21,10 @@ class Interface:
         self.screen = None
         self.gradient_color = [0,0,255] #color of circle
         self.wave_color = [0,0,255] # color of wave
-        self.stack = []
         self.fps = 40
+    
+    def set_is_talking(self):
+        self.IS_TALKING = not self.IS_TALKING
 
     def get_waves(self):
         start_time = 0
@@ -34,9 +36,6 @@ class Interface:
         amplitude = random.randint(1,100)
         waves = amplitude * np.sin(2 * np.pi * frequency * time + theta)
         return waves
-
-    def set_is_talking(self):
-        self.IS_TALKING = not self.IS_TALKING
 
     def draw_waves(self):
         x = 160
@@ -90,7 +89,7 @@ class Interface:
 
         font = pygame.font.SysFont(None, 95)
 
-        text = ""
+        input_text = ""
         while self.RUNNING:
             self.screen.fill(background_color)
 
@@ -105,16 +104,16 @@ class Interface:
                 elif event.type == pygame.KEYDOWN and self.TYPING:
                     if event.key == pygame.K_RETURN:
                         self.TYPING = False
-                        self.INPUT_TEXT = text
-                        text = ""
+                        self.INPUT_TEXT = input_text
+                        input_text = ""
                     elif event.key == pygame.K_BACKSPACE:
-                        text =  text[:-1]
+                        input_text =  input_text[:-1]
                     else:
-                        text += event.unicode
+                        input_text += event.unicode
 
             if self.TYPING:
                 rect = pygame.draw.rect(self.screen,self.colors.RED,[10,600,710,200],2)
-                text_surf = font.render(text, True, self.colors.RED)
+                text_surf = font.render(input_text, True, self.colors.RED)
                 self.screen.blit(text_surf, (10,600,710,200))
             self.draw()
 
