@@ -12,16 +12,33 @@ Assistente virtual minerva com funcionalidades inspiradas na
 maioria das assistentes virtuais atualmente, porém, para sistemas
 Linux.
 
+## Rodando localmente
 
-## Instalação
+Clone o projeto
 
-Instale my-project com npm
+```bash
+  git clone https://github.com/Rene-Michel99/Minerva.git
+```
+
+Entre no diretório do projeto
 
 ```bash
   cd Minerva
+```
+
+Instale as dependências
+
+```bash
   pip install -r requirements.txt
 ```
-    
+
+Inicie o servidor
+
+```bash
+  python Minerva.py
+```
+
+
 ## Funcionalidades
 
 - Reconhecimento de voz
