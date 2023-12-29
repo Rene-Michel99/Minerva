@@ -13,3 +13,6 @@ Vocabulario/
 Docs/
 .ipynb_checkpoints/
 __pycache__
+.idea
+.vscode
+node_modules

@@ -1,6 +1,5 @@
 import datetime
 import threading
-import __init__
 from ChatbotController import ChatbotController
 from Models import DBModel
 from TasksController import TasksController

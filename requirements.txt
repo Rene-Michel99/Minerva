@@ -1,10 +1,12 @@
 numpy
 pandas
 matplotlib
-pygame
 requests
 beautifulsoup4
 fuzzywuzzy
 tensorflow
 spacy
 SpeechRecognition
+flask
+flask-cors
+zmq

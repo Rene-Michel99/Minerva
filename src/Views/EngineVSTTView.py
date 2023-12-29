@@ -8,7 +8,7 @@ from Graphical_view import InterfaceView
 class EngineVSTTView(InterfaceView):
     def __init__(self):
         super().__init__()
-        self.cmd = 'spd-say -o "rhvoice" -w -t female1 '
+        self.cmd = 'spd-say -o "rhvoice" -w -t female1 '# spd-say -o "rhvoice" -w -y "Portuguese (Brazil)+Belinda"
         self.how_get_input = 2
 
     def wait_input(self):
