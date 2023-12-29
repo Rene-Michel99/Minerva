@@ -1,3 +1,4 @@
-[submodule "Transformer-Chatbot"]
+[submodule "src/ZmqServer/TransformerChatbot"]
 	path = src/ZmqServer/TransformerChatbot
 	url = https://github.com/Rene-Michel99/Transformer-Chatbot
+	branch = main
