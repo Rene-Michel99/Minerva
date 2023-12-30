@@ -38,7 +38,7 @@ class ZmqServer(ABC):
         signal.signal(signal.SIGTERM, self.handle_sigterm)
     
     def handle_sigterm(self, signum, frame):
-        print("Recebido sinal SIGTERM. Realizando operações de encerramento...")
+        self.logger.info("Recebido sinal SIGTERM. Realizando operações de encerramento...")
         # Adicione aqui qualquer código que você deseja executar antes de encerrar
         sys.exit(0)
 

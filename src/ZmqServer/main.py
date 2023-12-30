@@ -15,7 +15,6 @@ from TransformerChatbot.Models import Chatbot
 from TransformerChatbot.Utils import download_trained_weights
 
 
-
 class DBConnection:
     def __init__(self):
         self._conn = self._get_connection()
@@ -31,15 +30,14 @@ class DBConnection:
         return conn
 
     def execute(self, query: str):
+        cur = self._conn.cursor()
         self._conn.execute("BEGIN TRANSACTION;")
-
         try:
-            self._conn.execute(query)
+            cur.execute(query)
+            self._conn.commit()
         except Exception as ex:
             self._conn.rollback()
             raise ex
-
-        self._conn.commit()
 
 
 class ChatbotServer(ZmqServer):
