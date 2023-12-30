@@ -1,5 +1,5 @@
 
-![Logo](https://raw.githubusercontent.com/Rene-Michel99/Minerva/main/src/Views/icons/minerva_icon_final.png)
+![](src/gui/src/images/icon.jpeg)
 
 
 # Minerva Virtual Assistant
