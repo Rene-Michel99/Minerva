@@ -1,0 +1,14 @@
+.Chat {
+    display: flex;
+    padding-left: 12px;
+    padding-right: 12px;
+    place-content: center;
+    flex-direction: column;
+    background-color: aliceblue;
+    height: 100vh;
+}
+
+.Interactions {
+    overflow-y: scroll;
+    height:100%;
+}
