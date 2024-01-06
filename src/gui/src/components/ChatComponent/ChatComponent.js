@@ -7,7 +7,7 @@ import ErrorBar from './ErrorBar.js';
 
 
 const ChatComponent = ({voice, pitch, volume, rate, isSpeaking, autoSpeak, handleSpeaking}) => {
-    const [messages, setMessages] = useState([{text: 'Olá', actor: 'Bot', id: 1, examples: [], languages: []}]);
+    const [messages, setMessages] = useState([]);
     const [processing, setProcessing] = useState(false);
     const [waitingMessage, setWaitingMessage] = useState(false);
     const [openErrorBar, setopenErrorBar] = useState(false);
