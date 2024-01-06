@@ -7,7 +7,7 @@ import uuidv4 from '../Utils.js';
 
 
 const TextToSpeech = ({
-  text, processing, autoSpeak, handlePlaySpeak, handleInputChange, handleNewMessage,
+  processing, autoSpeak, handlePlaySpeak, handleNewMessage,
   handleProcessing, handleWaitingMessage, handleOpenErrorBar
 }) => {
 
@@ -22,6 +22,7 @@ const TextToSpeech = ({
   const sendMessage = async () => {
     const url = 'http://localhost:8080/inference';
     const messageId = uuidv4();
+    const inputText = document.getElementById('inputText').value;
 
     const options = {
       method: 'POST',
@@ -31,16 +32,15 @@ const TextToSpeech = ({
       },
       body: JSON.stringify({
         id: messageId,
-        sentence: text
+        sentence: inputText
       })
     };
 
-    console.log(text);
-    if (text === '') {
+    if (inputText === '') {
       return;
     }
     
-    handleNewMessage('User', text, messageId);
+    handleNewMessage('User', {id: messageId, text: inputText, examples: [], languages: []});
     handleProcessing(true);
     handleWaitingMessage(true);
 
@@ -49,14 +49,11 @@ const TextToSpeech = ({
       if(!response.ok) throw new Error(response.statusText);
       else return response.json();
     })
-    .then(data => {
-      console.log(data);
-      const responseText = data.text !== '. . .' ? data.text : 'não sei';
-      
-      handleCallAutoSpeak(responseText);
+    .then(data => {      
+      handleCallAutoSpeak(data.text);
 
       handleWaitingMessage(false);
-      handleNewMessage('Bot', responseText, data.id);
+      handleNewMessage('Bot', data);
       
       const inputField = document.getElementById('inputText')
       inputField.value = "";
@@ -76,7 +73,6 @@ const TextToSpeech = ({
         <TextField
           id="inputText"
           variant="outlined"
-          onChange={handleInputChange}
           style={{width: '90%'}}
         />
         <Button

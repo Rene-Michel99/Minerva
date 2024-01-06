@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import ConfigComponent from './components/Config/ConfigComponent.js'
-import ChatComponent from './components/Chat/ChatComponent.js';
+import ConfigComponent from './components/ConfigComponent/ConfigComponent.js'
+import ChatComponent from './components/ChatComponent/ChatComponent.js';
 
 
 function getDefaultVoice(voices) {

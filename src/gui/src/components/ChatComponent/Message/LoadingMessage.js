@@ -2,7 +2,7 @@ import React from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import MinervaIcon from '../../images/icon.jpeg';
+import MinervaIcon from '../../../images/icon.jpeg';
 import './Message.css';
 
 

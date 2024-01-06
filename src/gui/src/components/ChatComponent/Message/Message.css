@@ -30,6 +30,23 @@
     display: flex;
     flex-direction: row;
 }
+.ExampleHeader {
+  background-color: darkgray;
+  padding: 4px;
+  font-size: small;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.ExampleSnippet {
+  background-color: #3a3b3c;
+  color: aliceblue;
+  padding: 12px;
+  line-height: 6vh;
+  word-spacing: 1.5vh;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  white-space: pre-line;
+}
 .LinearProgressCenter {
     width: 100%;
     margin-top: 5%;
@@ -73,4 +90,3 @@
               transform: scale(1);
     }
   }
-  

@@ -1,3 +1,4 @@
+import re
 import uuid
 import sqlite3
 import datetime
@@ -97,9 +98,20 @@ class ChatbotServer(ZmqServer):
             )
         )
 
+        response_text = response_text if response_text != '. . .' else 'não sei'
+        examples = re.findall(r"`.*?`", response_text)
+        languages = re.findall(r"<lang.*?>", response_text)
+        for i in range(len(examples)):
+            response_text = response_text.replace(examples[i], "")
+            examples[i] = examples[i].replace(languages[i], "")
+            examples[i] = examples[i].replace("`", "").strip().replace("<br>", "\n")
+            languages[i] = languages[i].replace("<lang", "").replace(">", "").capitalize()
+
         return {
             "id": response_id,
             "text": response_text,
+            "examples": examples,
+            "languages": languages,
         }
 
 

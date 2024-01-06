@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TextToSpeech from './TTS.js';
 import './ChatComponent.css';
-import LoadingMessage from '../Message/LoadingMessage.js';
-import MessageComponent from '../Message/MessageComponent.js';
+import LoadingMessage from './Message/LoadingMessage.js';
+import MessageComponent from './Message/MessageComponent.js';
 import ErrorBar from './ErrorBar.js';
 
 
 const ChatComponent = ({voice, pitch, volume, rate, isSpeaking, autoSpeak, handleSpeaking}) => {
-    const [inputText, setInputText] = useState('');
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([{text: 'Olá', actor: 'Bot', id: 1, examples: [], languages: []}]);
     const [processing, setProcessing] = useState(false);
     const [waitingMessage, setWaitingMessage] = useState(false);
     const [openErrorBar, setopenErrorBar] = useState(false);
@@ -24,22 +23,18 @@ const ChatComponent = ({voice, pitch, volume, rate, isSpeaking, autoSpeak, handl
         setWaitingMessage(value)
     }
 
-    const handleNewMessage = (actor, text, id) => {
+    const handleNewMessage = (actor, data) => {
         setMessages((previousMessages) => [
             ...previousMessages,
             {
-                id: id,
+                id: data.id,
                 actor: actor,
-                text: text
+                text: data.text,
+                examples: data.examples,
+                languages: data.languages
             }
         ]);
     }
-
-    const handleInputChange = (event) => {
-        if (!isSpeaking) {
-            setInputText(event.target.value);
-        }
-    };
     
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -53,14 +48,13 @@ const ChatComponent = ({voice, pitch, volume, rate, isSpeaking, autoSpeak, handl
     const handleNewUtterance = () => {
         const synth = window.speechSynthesis;
     
-        const u = new SpeechSynthesisUtterance(inputText);
+        const u = new SpeechSynthesisUtterance('');
         u.onstart = () => {
-        handleSpeaking(true);
+            handleSpeaking(true);
         }
         u.onend = () => {
-        console.log('Fala concluída');
-        handleSpeaking(false);
-        handleProcessing(false);
+            handleSpeaking(false);
+            handleProcessing(false);
         };
 
         setUtterance(u);
@@ -109,11 +103,9 @@ const ChatComponent = ({voice, pitch, volume, rate, isSpeaking, autoSpeak, handl
                 <div ref={messagesEndRef} />
             </div>
             <TextToSpeech
-                text={inputText}
                 processing={processing}
                 autoSpeak={autoSpeak}
                 handlePlaySpeak={handlePlaySpeak}
-                handleInputChange={handleInputChange}
                 handleNewMessage={handleNewMessage}
                 handleProcessing={handleProcessing}
                 handleWaitingMessage={handleWaitingMessage}

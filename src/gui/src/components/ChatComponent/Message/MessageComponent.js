@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import './Message.css';
-import MinervaIcon from '../../images/icon.jpeg';
+import MinervaIcon from '../../../images/icon.jpeg';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import ExampleSnippet from './ExampleSnippet';
 
 
 const MessageComponent = ({ message, handleOpenErrorBar, handlePlaySpeak }) => {
@@ -62,6 +63,13 @@ const MessageComponent = ({ message, handleOpenErrorBar, handlePlaySpeak }) => {
             <Avatar alt={message.actor} src={src} sx={{ width: 36, height: 36 }} style={{marginRight: '8px'}}/>
             <span>
                 {message.text}
+                {message.examples.map((example, index) => {
+                    return <ExampleSnippet
+                        key={message.id}
+                        exampleText={example}
+                        exampleLanguage={message.languages[index]}
+                    />
+                })}
                 {message.actor === 'Bot' && (
                     <div>
                         <IconButton
