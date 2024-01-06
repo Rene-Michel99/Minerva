@@ -29,13 +29,15 @@ Entre no diretório do projeto
 Instale as dependências
 
 ```bash
-  pip install -r requirements.txt
+  chmod +x build.sh
+  ./build.sh
 ```
 
 Inicie o servidor
 
 ```bash
-  python Minerva.py
+  chmod +x start.sh
+  ./start.sh
 ```
 
 
