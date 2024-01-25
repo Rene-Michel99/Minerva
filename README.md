@@ -8,10 +8,7 @@
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 ![Pull Requests](https://img.shields.io/github/issues-pr/Rene-Michel99/Minerva) ![issues](https://img.shields.io/github/issues/Rene-Michel99/Minerva)
 
-Assistente virtual minerva com funcionalidades inspiradas na
-maioria das assistentes virtuais atualmente, porém, para sistemas
-Linux.
-
+Assistente virtual que usa um Chatbot com arquitetura Transformer para sistemas Linux, possuindo capacidade de conversação e comandos de voz. O código é totalmente bem estruturado e fácil de entender tornando fácil de ser modificado e mantido.
 ## Rodando localmente
 
 Clone o projeto
