@@ -48,16 +48,14 @@ Inicie o servidor
 
 ## Stack utilizada
 
-**Front-end:** PyGame
+**Front-end:** React
 
 **Back-end:** Python
 
-**Packages:** tensorflow, sklearn, numpy, pandas
+**Packages:** tensorflow, zmq, flask, numpy
 
 
 ## Roadmap
-
-- Melhorar frontend
 
 - Criar mais funcionalidades
 
