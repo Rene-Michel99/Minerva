@@ -4,11 +4,19 @@
     padding-right: 12px;
     place-content: center;
     flex-direction: column;
-    background-color: aliceblue;
-    height: 100vh;
+    height: 81vh;
+    width: 100%;
 }
 
 .Interactions {
     overflow-y: scroll;
     height:100%;
+}
+
+.lightInput {
+    lighting-color: inherit;
+}
+
+.darkInput {
+    lighting-color: #ECECEC;
 }

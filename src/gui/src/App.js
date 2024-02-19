@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
-import ConfigComponent from './components/ConfigComponent/ConfigComponent.js'
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import MinervaIcon from './images/icon.jpeg';
+import SidebarComponent from './components/SidebarComponent/SidebarComponent.js';
 import ChatComponent from './components/ChatComponent/ChatComponent.js';
+import './App.css';
 
 
 function getDefaultVoice(voices) {
@@ -11,7 +19,9 @@ function getDefaultVoice(voices) {
   return defaultVoice !== undefined ? defaultVoice : voices[0];
 }
 
-function App() {
+function App(props) {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isClosing, setIsClosing] = React.useState(false);
   const [langVoices, setLangVoices] = useState([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voice, setVoice] = useState(null);
@@ -19,6 +29,9 @@ function App() {
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
   const [autoSpeak, setAutoSpeak] = useState(true);
+  const [darkTheme, setDarkTheme] = useState(false);
+  const drawerWidth = 240;
+  const backgroundColor = darkTheme ? '#101010' : 'aliceblue';
   
 
   const handleVoiceChange = (event) => {
@@ -45,6 +58,25 @@ function App() {
     setIsSpeaking(value);
   }
 
+  const handleDrawerClose = () => {
+    setIsClosing(true);
+    setMobileOpen(false);
+  };
+
+  const handleDrawerTransitionEnd = () => {
+    setIsClosing(false);
+  };
+
+  const handleDrawerToggle = () => {
+    if (!isClosing) {
+      setMobileOpen(!mobileOpen);
+    }
+  };
+
+  const handleChangeDarkTheme = () => {
+    setDarkTheme((previous) =>!previous);
+  };
+
   useEffect(() => {
     const handleVoicesLoaded = () => {
       const avaiableVoices = window.speechSynthesis.getVoices().filter((v) => {
@@ -63,8 +95,33 @@ function App() {
   }, []);
 
   return (
-    <div className='App'>
-      <ConfigComponent
+    <Box sx={{ display: 'flex', backgroundColor: {backgroundColor}, height: '100vh' }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
+        <Toolbar className='AppBar'>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Stack direction="row" spacing={2}>
+                <Avatar alt="Minerva" src={MinervaIcon} sx={{ width: 48, height: 48 }} />
+                <h1>Minerva</h1>
+            </Stack>
+        </Toolbar>
+      </AppBar>
+      <SidebarComponent
+        drawerWidth={drawerWidth}
+        mobileOpen={mobileOpen}
         langVoices={langVoices}
         voice={voice}
         pitch={pitch}
@@ -72,22 +129,33 @@ function App() {
         volume={volume}
         autoSpeak={autoSpeak}
         isSpeaking={isSpeaking}
+        darkTheme={darkTheme}
         handleVoiceChange={handleVoiceChange}
         handlePitchChange={handlePitchChange}
         handleRateChange={handleRateChange}
         handleVolumeChange={handleVolumeChange}
         handleAutoSpeakChange={handleAutoSpeakChange}
+        handleDrawerClose={handleDrawerClose}
+        handleDrawerTransitionEnd={handleDrawerTransitionEnd}
+        handleChangeDarkTheme={handleChangeDarkTheme}
       />
-      <ChatComponent
-        voice={voice}
-        pitch={pitch}
-        rate={rate}
-        volume={volume}
-        isSpeaking={isSpeaking}
-        autoSpeak={autoSpeak}
-        handleSpeaking={handleSpeaking}
-      />
-    </div>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+        <Toolbar />
+        <ChatComponent
+          voice={voice}
+          pitch={pitch}
+          rate={rate}
+          volume={volume}
+          isSpeaking={isSpeaking}
+          darkTheme={darkTheme}
+          autoSpeak={autoSpeak}
+          handleSpeaking={handleSpeaking}
+        />
+      </Box>
+    </Box>
   );
 }
 

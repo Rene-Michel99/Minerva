@@ -1,5 +1,22 @@
 .Config {
     background-color: #202020;
-    padding: 32px;
+    padding: 12px;
     color: aliceblue;
+    height: 100%;
+}
+
+.ConfigModal {
+    position: absolute;
+    top: 45%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 55%;
+    color: aliceblue;
+    background-color: #202020;
+    border: 2px solid gray;
+    box-shadow: 24;
+    padding: 24px;
+    border-radius: 10px;
+    overflow-y: scroll;
 }

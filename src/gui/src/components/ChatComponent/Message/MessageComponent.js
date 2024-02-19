@@ -6,15 +6,17 @@ import IconButton from '@mui/material/IconButton';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import Stack from '@mui/material/Stack';
 import ExampleSnippet from './ExampleSnippet';
 
 
-const MessageComponent = ({ message, handleOpenErrorBar, handlePlaySpeak }) => {
+const MessageComponent = ({ message, darkTheme, handleOpenErrorBar, handlePlaySpeak }) => {
     const id = message.id;
     const [isReviewed, setIsReviewed] = useState(false);
 
-    const className = message.actor === 'Bot' ? 'BotInput scale-up-center' : 'UserInput scale-up-center';
+    const theme = darkTheme ? 'dark' : 'light';
     const src = message.actor === 'Bot' ? MinervaIcon : '.';
+    const position = message.actor === 'Bot' ? 'flex-start' : 'flex-end';
 
     const reviewMessage = async (review) => {
         const url = 'http://localhost:8080/review';
@@ -59,42 +61,58 @@ const MessageComponent = ({ message, handleOpenErrorBar, handlePlaySpeak }) => {
     }
     
     return (
-        <div className={className}>
-            <Avatar alt={message.actor} src={src} sx={{ width: 36, height: 36 }} style={{marginRight: '8px'}}/>
-            <span>
-                {message.text}
-                {message.examples.map((example, index) => {
-                    return <ExampleSnippet
-                        key={message.id}
-                        exampleText={example}
-                        exampleLanguage={message.languages[index]}
-                    />
-                })}
-                {message.actor === 'Bot' && (
-                    <div>
-                        <IconButton
-                            size='small'
-                            aria-label="speak"
-                            onClick={() => handlePlaySpeak(message.text)}
-                        ><VolumeUpIcon fontSize="inherit"/></IconButton>
-                        {!isReviewed && (
-                            <>
-                                <IconButton
-                                    size='small'
-                                    aria-label="like"
-                                    onClick={handleThumbsUp}
-                                ><ThumbUpIcon fontSize="inherit"/></IconButton>
-                                <IconButton
-                                    size='small'
-                                    aria-label="dislike"
-                                    onClick={handleThumbsDown}
-                                ><ThumbDownIcon fontSize="inherit"/></IconButton>
-                            </>
-                        )}
-                    </div>
-                )}
-            </span>
-        </div>
+        <Stack
+            direction="row"
+            justifyContent={position}
+            alignItems={position}
+            spacing={0}
+        >
+            <Stack
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                spacing={0}
+                className={`Message scale-up-center ${theme}`}
+            >
+                <Avatar alt={message.actor} src={src} sx={{ width: 36, height: 36 }} style={{marginRight: '8px'}}/>
+                <span style={{ color: 'inherit' }}>
+                    {message.text}
+                    {message.examples.map((example, index) => {
+                        return <ExampleSnippet
+                            key={message.id}
+                            exampleText={example}
+                            exampleLanguage={message.languages[index]}
+                        />
+                    })}
+                    {message.actor === 'Bot' && (
+                        <Stack
+                            direction={'row'}
+                            spacing={1}
+                        >
+                            <IconButton
+                                size='small'
+                                aria-label="speak"
+                                onClick={() => handlePlaySpeak(message.text)}
+                            ><VolumeUpIcon fontSize="inherit"/></IconButton>
+                            {!isReviewed && (
+                                <>
+                                    <IconButton
+                                        size='small'
+                                        aria-label="like"
+                                        onClick={handleThumbsUp}
+                                    ><ThumbUpIcon fontSize="inherit"/></IconButton>
+                                    <IconButton
+                                        size='small'
+                                        aria-label="dislike"
+                                        onClick={handleThumbsDown}
+                                    ><ThumbDownIcon fontSize="inherit"/></IconButton>
+                                </>
+                            )}
+                        </Stack>
+                    )}
+                </span>
+            </Stack>
+        </Stack>
     );
 }
 

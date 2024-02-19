@@ -1,90 +1,63 @@
-import React from "react";
-import Slider from '@mui/material/Slider';
-import Avatar from '@mui/material/Avatar';
-import MinervaIcon from '../../images/icon.jpeg';
-import Stack from '@mui/material/Stack';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import WaveComponent from "./WaveComponent";
-import Switch from '@mui/material/Switch';
+import React, { useState } from 'react';
+import SettingsIcon from '@mui/icons-material/Settings';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Modal from "@mui/material/Modal";
+import ConfigModal from "./ConfigModal";
 import './Config.css';
 
+
 const ConfigComponent = ({
-    langVoices, voice, pitch, rate, volume, autoSpeak, isSpeaking,
+    langVoices, voice, pitch, rate, volume, autoSpeak, isSpeaking, darkTheme,
     handleVoiceChange, handlePitchChange, handleRateChange, handleVolumeChange,
-    handleAutoSpeakChange
+    handleAutoSpeakChange, handleChangeDarkTheme
 }) => {
+
+    const [modalOpened, setModalOpened] = useState(false);
+
+    const handleOpen = () => {
+        setModalOpened(true);
+    }
+    const handleClose = () => {
+        setModalOpened(false);
+    }
+
     return (
         <div className='Config'>
-            <Stack direction="row" spacing={2}>
-                <Avatar alt="Minerva" src={MinervaIcon} sx={{ width: 56, height: 56 }} />
-                <h1>Minerva</h1>
-            </Stack>
-            <div>
-                <label>
-                    Voice:
-                    <Select
-                        labelId="select-voices"
-                        id="select-voices-id"
-                        value={voice ? voice.name : 'Select'}
-                        onChange={handleVoiceChange}
-                        label="Voices"
-                        style={{width:'70%'}}
-                    >
-                        {langVoices.map((voice) => (
-                        <MenuItem key={voice.name} value={voice.name}>
-                            {voice.name}
-                        </MenuItem>
-                        ))}
-                    </Select>
-                </label>
-
-                <br />
-
-                <label>
-                    Pitch:
-                    <Slider
-                        min={0.5}
-                        max={2}
-                        step={0.1}
-                        value={pitch}
-                        defaultValue={pitch}
-                        onChange={handlePitchChange}
-                    />
-                </label>
-
-                <br />
-
-                <label>
-                    Speed:
-                    <Slider
-                        min={0.5}
-                        max={2}
-                        step={0.1}
-                        value={rate}
-                        defaultValue={rate}
-                        onChange={handleRateChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Volume:
-                    <Slider
-                        min={0}
-                        max={1}
-                        step={0.1}
-                        value={volume}
-                        defaultValue={volume}
-                        onChange={handleVolumeChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Auto speak:
-                    <Switch checked={autoSpeak} onChange={handleAutoSpeakChange}/>
-                </label>
-            </div>
-            <WaveComponent isActive={isSpeaking}/>
+            <List>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={handleOpen}>
+                        <ListItemIcon><SettingsIcon color="primary"/></ListItemIcon>
+                        <ListItemText primary={'Config'}/>
+                    </ListItemButton>
+                </ListItem>
+                <Divider variant="fullWidth" component="li" sx={{ backgroundColor: 'gray' }} />
+            </List>
+            <Modal
+                open={modalOpened}
+                onClose={handleClose}
+            >
+                <ConfigModal
+                    langVoices={langVoices}
+                    voice={voice}
+                    pitch={pitch}
+                    rate={rate}
+                    volume={volume}
+                    autoSpeak={autoSpeak}
+                    darkTheme={darkTheme}
+                    handleVoiceChange={handleVoiceChange}
+                    handlePitchChange={handlePitchChange}
+                    handleRateChange={handleRateChange}
+                    handleVolumeChange={handleVolumeChange}
+                    handleAutoSpeakChange={handleAutoSpeakChange}
+                    handleClose={handleClose}
+                    handleChangeDarkTheme={handleChangeDarkTheme}
+                />
+            </Modal>
         </div>
     );
 }

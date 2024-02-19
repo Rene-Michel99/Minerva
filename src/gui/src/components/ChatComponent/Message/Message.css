@@ -1,34 +1,24 @@
-.UserInput {
+.Message {
     border-radius: 10px;
     padding: 12px;
-    display: flex;
-    margin-left: 55%;
+    max-width: 50%;
     margin-top: 10px;
     overflow-wrap: anywhere;
-    background-color: lightskyblue;
 }
-.BotInput {
-    border-radius: 10px;
-    padding: 12px;
-    display: flex;
-    margin-right: 55%;
-    margin-top: 10px;
-    overflow-wrap: anywhere;
-    background-color: lightskyblue;
+
+.light {
+  background-color: lightskyblue;
+}
+.dark {
+  background-color: rgb(96, 149, 182);
+  color: #ECECEC;
 }
 
 .LoadingMessage {
-    width: 50%;
-    height: 15vh;
-    padding-top: 5vh;
-    padding-left: 3vh;
-    background-color: lightskyblue;
+    padding: 12px;
     border-radius: 10px;
-    margin: 10px;
-}
-.GhostMessage {
-    display: flex;
-    flex-direction: row;
+    width: 40%;
+    margin-top: 10px;
 }
 .ExampleHeader {
   background-color: darkgray;
@@ -41,15 +31,12 @@
   background-color: #3a3b3c;
   color: aliceblue;
   padding: 12px;
-  line-height: 6vh;
-  word-spacing: 1.5vh;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  white-space: pre-line;
+  white-space: pre;
 }
 .LinearProgressCenter {
     width: 100%;
-    margin-top: 5%;
     margin-left: 10px;
     margin-right: 10px;
 }

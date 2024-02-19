@@ -4,10 +4,12 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import uuidv4 from '../Utils.js';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import "./ChatComponent.css";
 
 
 const TextToSpeech = ({
-  processing, autoSpeak, handlePlaySpeak, handleNewMessage,
+  processing, autoSpeak, darkTheme, handlePlaySpeak, handleNewMessage,
   handleProcessing, handleWaitingMessage, handleOpenErrorBar
 }) => {
 
@@ -18,6 +20,18 @@ const TextToSpeech = ({
       handleProcessing(false);
     }
   }
+  
+  const theme = createTheme({
+    components: {
+      MuiInputBase: {
+        styleOverrides: {
+          input: {
+            color: darkTheme ? '#ECECEC' : 'inherit',
+          },
+        },
+      },
+    },
+  });
 
   const sendMessage = async () => {
     const url = 'http://localhost:8080/inference';
@@ -70,11 +84,14 @@ const TextToSpeech = ({
   return (
     <div style={{ padding: '12px' }}>
       <Stack direction="row" spacing={2}>
-        <TextField
-          id="inputText"
-          variant="outlined"
-          style={{width: '90%'}}
-        />
+        <ThemeProvider theme={theme}>
+          <TextField
+            id="inputText"
+            variant="outlined"
+            style={{width: '90%', color: 'white'}}
+            focused={darkTheme}
+          />
+        </ThemeProvider>
         <Button
           variant="contained"
           onClick={sendMessage}
