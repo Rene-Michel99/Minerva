@@ -1,15 +1,13 @@
 import React from "react";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import uuidv4 from '../Utils.js';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "./ChatComponent.css";
 
 
 const TextToSpeech = ({
-  processing, autoSpeak, darkTheme, handlePlaySpeak, handleNewMessage,
+  processing, autoSpeak, handlePlaySpeak, handleNewMessage,
   handleProcessing, handleWaitingMessage, handleOpenErrorBar
 }) => {
 
@@ -20,23 +18,11 @@ const TextToSpeech = ({
       handleProcessing(false);
     }
   }
-  
-  const theme = createTheme({
-    components: {
-      MuiInputBase: {
-        styleOverrides: {
-          input: {
-            color: darkTheme ? '#ECECEC' : 'inherit',
-          },
-        },
-      },
-    },
-  });
 
   const sendMessage = async () => {
     const url = 'http://localhost:8080/inference';
     const messageId = uuidv4();
-    const inputText = document.getElementById('inputText').value;
+    const inputText = document.getElementById('userInput').value;
 
     const options = {
       method: 'POST',
@@ -84,14 +70,7 @@ const TextToSpeech = ({
   return (
     <div style={{ padding: '12px' }}>
       <Stack direction="row" spacing={2}>
-        <ThemeProvider theme={theme}>
-          <TextField
-            id="inputText"
-            variant="outlined"
-            style={{width: '90%', color: 'white'}}
-            focused={darkTheme}
-          />
-        </ThemeProvider>
+        <input id="userInput" type="text" className="Input-text"></input>
         <Button
           variant="contained"
           onClick={sendMessage}

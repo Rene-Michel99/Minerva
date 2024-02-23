@@ -1,3 +1,17 @@
+:root {
+  --body_background: aliceblue;
+  --font_color: #101010;
+  --message_background: lightskyblue;
+  --input_border_color: gray;
+}
+
+[data-theme="dark"] {
+  --body_background: #101010;
+  --font_color: #ECECEC;
+  --message_background: rgb(96, 149, 182);
+  --input_border_color: rgb(96, 149, 182);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

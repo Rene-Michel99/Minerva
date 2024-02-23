@@ -1,9 +1,19 @@
 .App {
-  display: grid;
-  grid-template-columns: 20% 70%;
+  display: flex;
+  background-color: var(--body_background);
+  height: 100vh;
 }
 .AppBar {
   background-color: #202020;
+}
+
+.Light-theme {
+  --bg-color: aliceblue;
+  --font-color: #101010;
+}
+.Dark-theme {
+  --bg-color: #101010;
+  --font-color: #ECECEC;
 }
 
 .app {

@@ -4,14 +4,8 @@
     max-width: 50%;
     margin-top: 10px;
     overflow-wrap: anywhere;
-}
-
-.light {
-  background-color: lightskyblue;
-}
-.dark {
-  background-color: rgb(96, 149, 182);
-  color: #ECECEC;
+    background-color: var(--message_background);
+    color: var(--font_color);
 }
 
 .LoadingMessage {
@@ -19,6 +13,7 @@
     border-radius: 10px;
     width: 40%;
     margin-top: 10px;
+    background-color: var(--message_background);
 }
 .ExampleHeader {
   background-color: darkgray;

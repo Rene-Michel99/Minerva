@@ -31,7 +31,6 @@ function App(props) {
   const [autoSpeak, setAutoSpeak] = useState(true);
   const [darkTheme, setDarkTheme] = useState(false);
   const drawerWidth = 240;
-  const backgroundColor = darkTheme ? '#101010' : 'aliceblue';
   
 
   const handleVoiceChange = (event) => {
@@ -74,7 +73,13 @@ function App(props) {
   };
 
   const handleChangeDarkTheme = () => {
-    setDarkTheme((previous) =>!previous);
+    setDarkTheme((previous) => !previous);
+    const currentTheme = document.querySelector("body").getAttribute("data-theme");
+    if (currentTheme === null || currentTheme === "light") {
+      document.querySelector("body").setAttribute("data-theme", "dark");
+    } else {
+      document.querySelector("body").setAttribute("data-theme", "light");
+    }
   };
 
   useEffect(() => {
@@ -95,7 +100,7 @@ function App(props) {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: {backgroundColor}, height: '100vh' }}>
+    <Box className="App" >
       <AppBar
         position="fixed"
         sx={{
@@ -150,7 +155,6 @@ function App(props) {
           rate={rate}
           volume={volume}
           isSpeaking={isSpeaking}
-          darkTheme={darkTheme}
           autoSpeak={autoSpeak}
           handleSpeaking={handleSpeaking}
         />

@@ -20,3 +20,17 @@
 .darkInput {
     lighting-color: #ECECEC;
 }
+
+.Input-text {
+    width: 100%;
+    height: 7vh;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 2px solid var(--input_border_color);
+    outline: 0px;
+    font-size: 16px;
+    color: var(--font_color);
+}
+.Input-text:focus {
+    border: 2px solid skyblue;
+}
