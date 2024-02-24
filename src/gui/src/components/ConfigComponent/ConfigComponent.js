@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -8,27 +9,35 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Modal from "@mui/material/Modal";
 import ConfigModal from "./ConfigModal";
+import FAQModal from "./FAQModal";
 import './Config.css';
 
 
 const ConfigComponent = ({
-    langVoices, voice, pitch, rate, volume, autoSpeak, isSpeaking, darkTheme,
+    langVoices, voice, pitch, rate, volume, autoSpeak, isSpeaking,
     handleVoiceChange, handlePitchChange, handleRateChange, handleVolumeChange,
     handleAutoSpeakChange, handleChangeDarkTheme
 }) => {
 
-    const [modalOpened, setModalOpened] = useState(false);
+    const [modalConfigOpened, setModalConfigOpened] = useState(false);
+    const [modalFAQOpened, setModalFAQOpened] = useState(false);
 
     const handleOpen = () => {
-        setModalOpened(true);
+        setModalConfigOpened(true);
     }
     const handleClose = () => {
-        setModalOpened(false);
+        setModalConfigOpened(false);
+    }
+    const handleFAQOpen = () => {
+        setModalFAQOpened(true);
+    }
+    const handleFAQClose = () => {
+        setModalFAQOpened(false);
     }
 
     return (
         <div className='Config'>
-            <List>
+            <List >
                 <ListItem disablePadding>
                     <ListItemButton onClick={handleOpen}>
                         <ListItemIcon><SettingsIcon color="primary"/></ListItemIcon>
@@ -36,9 +45,15 @@ const ConfigComponent = ({
                     </ListItemButton>
                 </ListItem>
                 <Divider variant="fullWidth" component="li" sx={{ backgroundColor: 'gray' }} />
+                <ListItem disablePadding>
+                    <ListItemButton onClick={handleFAQOpen}>
+                        <ListItemIcon><LiveHelpIcon color="primary"/></ListItemIcon>
+                        <ListItemText primary={'Ajuda e FAQ'}/>
+                    </ListItemButton>
+                </ListItem>
             </List>
             <Modal
-                open={modalOpened}
+                open={modalConfigOpened}
                 onClose={handleClose}
             >
                 <ConfigModal
@@ -48,7 +63,6 @@ const ConfigComponent = ({
                     rate={rate}
                     volume={volume}
                     autoSpeak={autoSpeak}
-                    darkTheme={darkTheme}
                     handleVoiceChange={handleVoiceChange}
                     handlePitchChange={handlePitchChange}
                     handleRateChange={handleRateChange}
@@ -57,6 +71,12 @@ const ConfigComponent = ({
                     handleClose={handleClose}
                     handleChangeDarkTheme={handleChangeDarkTheme}
                 />
+            </Modal>
+            <Modal
+                open={modalFAQOpened}
+                onClose={handleFAQClose}
+            >
+                <FAQModal handleClose={handleFAQClose}/>
             </Modal>
         </div>
     );

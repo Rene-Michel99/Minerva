@@ -9,11 +9,11 @@ import { IconButton } from "@mui/material";
 import './Config.css';
 
 const ConfigModal = ({
-    langVoices, voice, pitch, rate, volume, autoSpeak, darkTheme,
+    langVoices, voice, pitch, rate, volume, autoSpeak,
     handleVoiceChange, handlePitchChange, handleRateChange, handleVolumeChange,
     handleAutoSpeakChange, handleClose, handleChangeDarkTheme
 }) => {
-    const theme = darkTheme ? "Dark Theme" : "Light Theme";
+    const theme = document.querySelector("body").getAttribute("data-theme");
 
     return (
         <div className="ConfigModal">
@@ -88,7 +88,7 @@ const ConfigModal = ({
             </label>
             <label>
                 {theme}:
-                <Switch checked={darkTheme} onChange={handleChangeDarkTheme}/>
+                <Switch checked={theme === "dark"} onChange={handleChangeDarkTheme}/>
             </label>
         </div>
     )
