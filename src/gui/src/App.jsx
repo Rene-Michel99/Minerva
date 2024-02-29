@@ -6,9 +6,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import MinervaIcon from './images/icon.jpeg';
-import SidebarComponent from './components/SidebarComponent/SidebarComponent.js';
-import ChatComponent from './components/ChatComponent/ChatComponent.js';
+import MinervaIcon from './images/icon_no_bg.png';
+import SidebarComponent from './components/SidebarComponent/SidebarComponent';
+import ChatComponent from './components/ChatComponent/ChatComponent';
 import './App.css';
 
 
@@ -23,7 +23,6 @@ function App(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [langVoices, setLangVoices] = useState([]);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [voice, setVoice] = useState(null);
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
@@ -51,10 +50,6 @@ function App(props) {
 
   const handleAutoSpeakChange = () => {
     setAutoSpeak((previous) => !previous);
-  }
-
-  const handleSpeaking = (value) => {
-    setIsSpeaking(value);
   }
 
   const handleDrawerClose = () => {
@@ -133,7 +128,6 @@ function App(props) {
         rate={rate}
         volume={volume}
         autoSpeak={autoSpeak}
-        isSpeaking={isSpeaking}
         darkTheme={darkTheme}
         handleVoiceChange={handleVoiceChange}
         handlePitchChange={handlePitchChange}
@@ -154,9 +148,7 @@ function App(props) {
           pitch={pitch}
           rate={rate}
           volume={volume}
-          isSpeaking={isSpeaking}
           autoSpeak={autoSpeak}
-          handleSpeaking={handleSpeaking}
         />
       </Box>
     </Box>

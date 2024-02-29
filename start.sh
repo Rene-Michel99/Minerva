@@ -41,9 +41,9 @@ pid_script1=$!
 python3 "$caminho_script2" &
 pid_script2=$!
 
-cd src/chatbot-frontend
+cd src/gui
 
-yarn start > logs/yarn.log &
+yarn start > ../../logs/yarn.log &
 pid_script3=$!
 
 # Aguardar a conclusão de ambos os scripts

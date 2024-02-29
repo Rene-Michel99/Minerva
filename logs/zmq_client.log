@@ -82,3 +82,99 @@
 2024-01-05 19:43:06,359 - MaskRCNN - INFO - Response received from server: {"id": "4bca7a8f-7048-4c92-af41-1fcce62619cd", "text": "linux \u00e9 um sistema operacional de c\u00f3digo aberto que gerencia recursos e hardware de um sistema , como cpu , mem\u00f3ria e armazenamento . ele foi criado pelo finland\u00eas linus torvalds em 1991 e \u00e9 distribu\u00eddo sob a licen\u00e7a p\u00fablica geral ( gpl ) gnu .", "examples": [], "languages": []}
 2024-01-05 19:43:32,808 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "6ed7efb5-3dbf-4c53-9d73-a5ea413c1fa3", "sentence": "thau minerva."}
 2024-01-05 19:43:33,946 - MaskRCNN - INFO - Response received from server: {"id": "74159565-4f16-47d0-bc41-f3471353f7f8", "text": "thau <user> .", "examples": [], "languages": []}
+2024-02-29 09:08:52,451 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "bb9d6848-9227-4b44-903c-64eece24d2f8", "sentence": "bom dia."}
+2024-02-29 09:08:54,131 - MaskRCNN - INFO - Response received from server: {"id": "d61effe4-a39f-40e7-b44f-5585f0d904fc", "text": "bom dia <user> .", "examples": [], "languages": []}
+2024-02-29 09:09:28,704 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "e215b57b-d77c-4ed9-87b9-6cc0906158dd", "sentence": "tudo bem?"}
+2024-02-29 09:09:30,083 - MaskRCNN - INFO - Response received from server: {"id": "34b745bb-8e60-4726-9ee6-5476938b51e1", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 09:19:31,010 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "1ee055c9-f267-4f40-8934-9ae3f0b06e9a", "sentence": "bom dia."}
+2024-02-29 09:19:32,380 - MaskRCNN - INFO - Response received from server: {"id": "4c33b22b-3215-4938-9fef-6db8396e2658", "text": "bom dia <user> .", "examples": [], "languages": []}
+2024-02-29 09:19:45,454 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "dc05de82-da57-415f-8e59-7e65ac42ff9a", "sentence": "tudo bem?"}
+2024-02-29 09:19:46,840 - MaskRCNN - INFO - Response received from server: {"id": "1ac49a8a-88e2-4a33-8fbc-a5a5c870ef06", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 09:20:14,482 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "42918acf-fa70-4b97-83b2-79df1b2efb2e", "sentence": "o que \u00e9 ictiologia?"}
+2024-02-29 09:20:17,043 - MaskRCNN - INFO - Response received from server: {"id": "7964993e-1a11-4f40-9634-c0bc57a83ea9", "text": "\u00e9 o ramo da zoologia devotado ao estudo dos peixes .", "examples": [], "languages": []}
+2024-02-29 09:25:06,107 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "2807fe69-f92b-4ab0-9e2c-ed2044d31d8b", "sentence": "o que voc\u00ea pode fazer?"}
+2024-02-29 09:25:08,586 - MaskRCNN - INFO - Response received from server: {"id": "2dda31e2-bbc2-478e-8801-9f5780ef59f3", "text": "posso conversar sobre v\u00e1rios temas e executar a\u00e7\u00f5es .", "examples": [], "languages": []}
+2024-02-29 09:27:53,794 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "33323572-ec96-48bc-9973-0a6294ba4403", "sentence": "ol\u00e1."}
+2024-02-29 09:27:54,800 - MaskRCNN - INFO - Response received from server: {"id": "c1b791e1-2f37-4c36-b9bd-0c6785baa55c", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 09:29:24,019 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "d3d06424-6779-4b16-8091-e7336983b469", "sentence": "como vai?"}
+2024-02-29 09:29:25,574 - MaskRCNN - INFO - Response received from server: {"id": "00ba2f84-6eae-4cd7-8bf8-1cbfeba772a1", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 09:30:55,374 - MaskRCNN - INFO - Sending request to ZMQ server: review	{"id": "00ba2f84-6eae-4cd7-8bf8-1cbfeba772a1", "feedback": 1}
+2024-02-29 09:30:55,392 - MaskRCNN - INFO - Response received from server: {"status": true}
+2024-02-29 09:37:42,035 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "b9837ae8-d42c-4548-a2d0-2b64b59c7d9c", "sentence": "bom dia."}
+2024-02-29 09:37:43,353 - MaskRCNN - INFO - Response received from server: {"id": "b1a4ec4f-e747-496f-b420-14211f3259be", "text": "bom dia <user> .", "examples": [], "languages": []}
+2024-02-29 09:38:56,169 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "c2ddebf0-5980-47bb-b325-d288bde28727", "sentence": "oi"}
+2024-02-29 09:38:57,154 - MaskRCNN - INFO - Response received from server: {"id": "ca284c4d-e200-4d6f-a022-0ef19eb4913f", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 09:39:02,564 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "ad676021-49ab-4501-a669-d3f470ac157c", "sentence": "oi"}
+2024-02-29 09:39:03,520 - MaskRCNN - INFO - Response received from server: {"id": "53a7b8eb-65a9-49c6-8a16-d905700bdc17", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 13:21:52,166 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "5d7e5e0b-6a1a-47d3-8add-fb0695337cd6", "sentence": "oi"}
+2024-02-29 13:21:53,115 - MaskRCNN - INFO - Response received from server: {"id": "91341d21-474c-4791-954b-e2282cec3e45", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 13:22:01,012 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "da59a3e9-1b7a-47b4-886c-46d28803c6cf", "sentence": "como vai?"}
+2024-02-29 13:22:02,219 - MaskRCNN - INFO - Response received from server: {"id": "4acb80d8-9c8f-4e51-91be-3b0a06db2998", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 14:40:10,715 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "7c2d360e-94ab-435a-bd45-7f928795c389", "sentence": "oi"}
+2024-02-29 14:40:11,848 - MaskRCNN - INFO - Response received from server: {"id": "317f88fa-6233-42ee-ab0a-022faa49d7a4", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 14:44:08,266 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "87538a74-353e-4dd4-8c9d-d48e382c2138", "sentence": "oi"}
+2024-02-29 14:44:09,404 - MaskRCNN - INFO - Response received from server: {"id": "fe20c9f2-550f-46e4-a1a2-0b5550cc6735", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 14:45:43,434 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "a16c76dd-eec6-4a3f-8d6a-b5d5f66c1a4c", "sentence": "oi"}
+2024-02-29 14:45:44,547 - MaskRCNN - INFO - Response received from server: {"id": "29a5c890-51de-479c-8398-35b979b1c464", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 14:53:55,758 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "5fb62e3c-98de-49ed-b334-e53a67c39818", "sentence": "ol\u00e1."}
+2024-02-29 14:53:56,826 - MaskRCNN - INFO - Response received from server: {"id": "f3507f2f-fd44-473a-b124-3d8b049636dc", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 14:55:45,460 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "ea8b646f-ca2d-482e-86d6-72a44929b4c0", "sentence": "ol\u00e1."}
+2024-02-29 14:55:46,508 - MaskRCNN - INFO - Response received from server: {"id": "8c0df97e-301f-4ded-98bc-874f34ccc078", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 14:57:20,214 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "2105c7b2-5485-4a50-a5fa-cf193d18277e", "sentence": "bom dia"}
+2024-02-29 14:57:21,483 - MaskRCNN - INFO - Response received from server: {"id": "5af2c11d-a31d-49f4-bff0-8affedf35ff1", "text": "bom dia <user> .", "examples": [], "languages": []}
+2024-02-29 15:01:52,522 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "8973c039-f125-4edf-837b-8d58e67c75cd", "sentence": "ol\u00e1"}
+2024-02-29 15:01:53,529 - MaskRCNN - INFO - Response received from server: {"id": "6d01910f-5aad-4566-8535-d89d1adb0211", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 15:02:32,229 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "b1b0db72-9d51-4f0f-ad26-7227614ccc68", "sentence": "oi."}
+2024-02-29 15:02:33,283 - MaskRCNN - INFO - Response received from server: {"id": "5278f8c1-8506-4314-aa35-7111cf595802", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 15:07:05,329 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "34fec4bc-eb70-4794-9405-810fb4a7c282", "sentence": "ol\u00e1"}
+2024-02-29 15:07:06,315 - MaskRCNN - INFO - Response received from server: {"id": "20600925-ce5c-4ef2-ae39-d9b0b6297e07", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 15:07:18,231 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "890b3554-2a5d-4459-8dc1-35398fad256f", "sentence": "como vai?"}
+2024-02-29 15:07:19,640 - MaskRCNN - INFO - Response received from server: {"id": "390bb50b-2544-4508-a96a-8e274ddc5b59", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 15:08:10,249 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "1193dd43-2152-44e2-a566-48236fdcbe1f", "sentence": "oi"}
+2024-02-29 15:08:11,318 - MaskRCNN - INFO - Response received from server: {"id": "b659af8e-f487-4f0f-b107-d1db93fe5dd0", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 15:15:07,438 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "87156326-1808-460b-9923-c0fbebf1dca0", "sentence": "oi"}
+2024-02-29 15:15:08,427 - MaskRCNN - INFO - Response received from server: {"id": "9adbc694-4c88-4e49-95f5-cd31441423d5", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 15:15:30,947 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "24208970-5c89-46db-912a-09244834ba3b", "sentence": "oi"}
+2024-02-29 15:15:32,024 - MaskRCNN - INFO - Response received from server: {"id": "e366c851-528e-419e-b162-7af4fa3c03ea", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 15:22:22,617 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "07bb37c3-c3d1-496a-9756-8a5b11186798", "sentence": "oi"}
+2024-02-29 15:22:23,571 - MaskRCNN - INFO - Response received from server: {"id": "fd39f022-1a55-42a3-96db-752ea52609fa", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 15:24:34,763 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "b1bd41ce-4c51-466a-98b6-549f8613b94c", "sentence": "ol\u00e1"}
+2024-02-29 15:24:35,792 - MaskRCNN - INFO - Response received from server: {"id": "0ad82f51-9e5b-44bc-88e7-587e3b93807d", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 15:24:45,746 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "26e78bfb-6154-4829-84dc-f391af36d205", "sentence": "como vai?"}
+2024-02-29 15:24:47,155 - MaskRCNN - INFO - Response received from server: {"id": "2b488da6-37a7-40df-9718-47a4374adb57", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 15:24:58,004 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "67b2ab39-2cb4-418f-b071-4bdfdaa2c1f5", "sentence": "tudo bem?"}
+2024-02-29 15:24:59,443 - MaskRCNN - INFO - Response received from server: {"id": "cb64e62e-aa10-4d6d-b942-53f916c9ce2b", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 16:06:40,590 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "d59e24dc-9501-4db0-96f1-2d2be2b61993", "sentence": "o que \u00e9 ictiologia?"}
+2024-02-29 16:06:43,034 - MaskRCNN - INFO - Response received from server: {"id": "b51f15f3-9266-4bd1-a890-6e7eb21df8d6", "text": "\u00e9 o ramo da zoologia devotado ao estudo dos peixes .", "examples": [], "languages": []}
+2024-02-29 16:07:22,144 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "1a68cfae-3292-4b41-8180-b8d4187d5f67", "sentence": "como posso listar arquivos no linux?"}
+2024-02-29 16:07:26,616 - MaskRCNN - INFO - Response received from server: {"id": "ff547c14-264c-4ac7-a2a6-f9a0bb1b0c5e", "text": "voc\u00ea pode fazer isso usando o comando ls . exemplo :  .", "examples": ["$ ls \n arquivo1.txt arquivo2.png subdiretorio"], "languages": ["Bash"]}
+2024-02-29 16:10:00,848 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "a6991971-ee45-43f7-926f-037872bc27c8", "sentence": "como posso listar arquivos no linux?"}
+2024-02-29 16:10:05,232 - MaskRCNN - INFO - Response received from server: {"id": "2b637ae0-a509-42e6-93b6-2d9efdfbf284", "text": "voc\u00ea pode fazer isso usando o comando ls . exemplo :  .", "examples": ["$ ls \n arquivo1.txt arquivo2.png subdiretorio"], "languages": ["Bash"]}
+2024-02-29 16:11:47,334 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "5a888c53-9ea6-4b94-ba1a-60c46235ca2c", "sentence": "como posso listar arquivos no linux?"}
+2024-02-29 16:11:51,496 - MaskRCNN - INFO - Response received from server: {"id": "c73634f9-3f55-49a2-acfb-b66797d9ce43", "text": "voc\u00ea pode fazer isso usando o comando ls . exemplo :  .", "examples": ["$ ls \n arquivo1.txt arquivo2.png subdiretorio"], "languages": ["Bash"]}
+2024-02-29 18:03:37,789 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "be41375b-baba-4f3f-afe7-2980deb895a9", "sentence": "oi"}
+2024-02-29 18:03:38,745 - MaskRCNN - INFO - Response received from server: {"id": "3dfdb917-8bed-422f-920d-e193ae5a8f96", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 18:21:00,022 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "f17d4922-e7b4-4809-9811-2f50f9c93170", "sentence": "oi"}
+2024-02-29 18:21:01,624 - MaskRCNN - INFO - Response received from server: {"id": "c2177d8e-ad6c-40c9-9734-775f1fa03704", "text": "ol\u00e1 <user> .", "examples": [], "languages": []}
+2024-02-29 18:35:19,836 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "bd355b6a-21bb-4fe1-a8cc-77d2648c5800", "sentence": "ol\u00e1"}
+2024-02-29 18:35:21,036 - MaskRCNN - INFO - Response received from server: {"id": "253979c5-fa60-4c1b-ba60-687f5f1b41af", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 18:35:26,983 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "1649f041-8537-4e8f-8356-5497c8da2b68", "sentence": "como vai?"}
+2024-02-29 18:35:28,567 - MaskRCNN - INFO - Response received from server: {"id": "f855c45b-afe0-4f4a-9f4c-442aff7fc10f", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 18:35:36,396 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "0eb0d4d6-ce4b-49d9-b1e8-97e6a5709d39", "sentence": "quem \u00e9 voc\u00ea?"}
+2024-02-29 18:35:38,378 - MaskRCNN - INFO - Response received from server: {"id": "12f2f62a-7ae6-4c64-8a10-798fc11cd87a", "text": "eu sou apenas uma intelig\u00eancia artificial .", "examples": [], "languages": []}
+2024-02-29 18:37:22,449 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "3f9f1fb2-625b-467c-b5a3-762fd20a59f9", "sentence": "ol\u00e1"}
+2024-02-29 18:37:23,582 - MaskRCNN - INFO - Response received from server: {"id": "6b687c8b-f89b-4170-a77f-4f59b0d58d92", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 18:37:29,031 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "da816a93-cc96-448a-90ab-871df0441857", "sentence": "como vai?"}
+2024-02-29 18:37:30,614 - MaskRCNN - INFO - Response received from server: {"id": "0532cd34-4ad5-4721-8381-495ef244e3f9", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 18:37:41,938 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "b6368172-5062-432c-9f88-f47c04684ff0", "sentence": "quem \u00e9 voc\u00ea?"}
+2024-02-29 18:37:43,884 - MaskRCNN - INFO - Response received from server: {"id": "254517fd-8974-4374-be0b-96437e1048db", "text": "eu sou apenas uma intelig\u00eancia artificial .", "examples": [], "languages": []}
+2024-02-29 18:38:47,419 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "46df8b1c-24c2-4347-89e3-32d471d3a39a", "sentence": "ol\u00e1"}
+2024-02-29 18:38:48,532 - MaskRCNN - INFO - Response received from server: {"id": "19721aaf-c005-49f5-91bd-3645d991b455", "text": "oi <user> .", "examples": [], "languages": []}
+2024-02-29 18:38:53,644 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "100baf3f-0bb2-4d32-a7fd-c68a2c394698", "sentence": "como vai?"}
+2024-02-29 18:38:55,180 - MaskRCNN - INFO - Response received from server: {"id": "82697fd4-f01f-4dcd-8ac7-3a59ec669285", "text": "meus diagn\u00f3sticos indicam <status> .", "examples": [], "languages": []}
+2024-02-29 18:39:03,336 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "1c3d98bb-ae04-4a65-9414-b3bb3b11488d", "sentence": "qual o seu nome?"}
+2024-02-29 18:39:04,743 - MaskRCNN - INFO - Response received from server: {"id": "e788b7c4-f811-4dc8-a02c-a012a8797c00", "text": "me chamo minerva .", "examples": [], "languages": []}
+2024-02-29 18:40:00,049 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "037e806d-42a4-4854-9118-6f52e959e9ca", "sentence": "interessante."}
+2024-02-29 18:40:02,194 - MaskRCNN - INFO - Response received from server: {"id": "fa1b18c9-4fbc-40d5-a3ff-2400e9f72c12", "text": "eu disse algo que estava provavelmente incorreto ?", "examples": [], "languages": []}
+2024-02-29 18:40:09,065 - MaskRCNN - INFO - Sending request to ZMQ server: inference	{"id": "5c57b540-d11c-4fcb-bb5f-71b7187ea8a7", "sentence": "n\u00e3o."}
+2024-02-29 18:40:10,921 - MaskRCNN - INFO - Response received from server: {"id": "b5c752fb-fc60-439d-b865-87235456fcea", "text": "essa \u00e9 uma quest\u00e3o filos\u00f3fica ?", "examples": [], "languages": []}

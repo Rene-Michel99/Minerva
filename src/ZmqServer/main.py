@@ -109,6 +109,7 @@ class ChatbotServer(ZmqServer):
 
         return {
             "id": response_id,
+            "actor": "Bot",
             "text": response_text,
             "examples": examples,
             "languages": languages,

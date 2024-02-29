@@ -6,7 +6,7 @@ import ConfigComponent from '../ConfigComponent/ConfigComponent.js';
 
 const SidebarComponent = ({
     drawerWidth, mobileOpen, langVoices, voice, pitch, rate, volume, autoSpeak,
-    isSpeaking, darkTheme, handleVoiceChange, handlePitchChange, handleRateChange, handleVolumeChange,
+    darkTheme, handleVoiceChange, handlePitchChange, handleRateChange, handleVolumeChange,
     handleAutoSpeakChange, handleDrawerClose, handleDrawerTransitionEnd, handleChangeDarkTheme
 }) => {
 
@@ -18,7 +18,6 @@ const SidebarComponent = ({
             rate={rate}
             volume={volume}
             autoSpeak={autoSpeak}
-            isSpeaking={isSpeaking}
             darkTheme={darkTheme}
             handleVoiceChange={handleVoiceChange}
             handlePitchChange={handlePitchChange}
